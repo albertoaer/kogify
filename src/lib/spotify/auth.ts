@@ -81,10 +81,6 @@ export async function requestToken(clientId: string, code: string, codeVerifier:
   return json.access_token
 }
 
-export const PERMISSIONS = ['user-read-private', 'user-read-email'] as const;
-
-export type Permission = typeof PERMISSIONS[number];
-
 export const AUTH_KEYS = { session: 'session', code_verifier: 'code_verifier' } as const;
 
 export type AuthKey = typeof AUTH_KEYS[keyof typeof AUTH_KEYS];
@@ -103,19 +99,28 @@ export class SpotifyAuth {
 
   constructor(private readonly helper: SpotifyAuthHelper) { }
 
-  async perform(permissions: Permission[]): Promise<void> {
+  async perform(permissions: string[] | string): Promise<void> {
     if (this.helper.getPersistent('session')) return;
 
     const code = getCodeFromURL(this.helper.getURL());
 
     if (!code) {
-      const output = await beginAuthorization(this.helper.getClientId(), this.helper.getRedirectURL(), permissions.join(' '));
+      const output = await beginAuthorization(
+        this.helper.getClientId(),
+        this.helper.getRedirectURL(),
+        (Array.isArray(permissions) ? permissions.join(' ') : permissions)
+      );
       this.helper.setPersistent('code_verifier', output.codeVerifier);
       this.helper.navigate(output.url);
     } else {
       const codeVerifier = this.helper.getPersistent('code_verifier');
       if (!codeVerifier) return;
-      const token = await requestToken(this.helper.getClientId(), code, codeVerifier, this.helper.getRedirectURL());
+      const token = await requestToken(
+        this.helper.getClientId(),
+        code,
+        codeVerifier,
+        this.helper.getRedirectURL()
+      );
       if (!token) return;
       this.helper.setPersistent('session', token);
     }
