@@ -1,11 +1,11 @@
 import { PUBLIC_REDIRECT_URL, PUBLIC_SPOTIFY_CLIENT_ID } from '$env/static/public';
-import type { AuthNotifier } from '$lib/spotify';
-import { AUTH_KEYS, type SpotifyAuthHelper, type AuthKey } from '$lib/spotify/auth';
-import { BehaviorSubject, Observable, distinctUntilChanged, filter } from 'rxjs';
+import type { SessionProvider, SessionState } from '$lib/spotify';
+import { AUTH_KEYS, type SpotifyAuthHelper, type AuthKey, type SpotifyAuth } from '$lib/spotify/auth';
+import { BehaviorSubject, Observable, distinctUntilChanged, filter, map } from 'rxjs';
 
-export class SvelteSpotifyAuthHelper implements SpotifyAuthHelper, AuthNotifier {
-  static subject = new BehaviorSubject(localStorage.getItem(AUTH_KEYS.session));
-  static observable = (this.subject as Observable<string>).pipe(filter(x => !!x), distinctUntilChanged());
+export class SvelteSpotifyAuthHelper implements SpotifyAuthHelper {
+  static readonly subject$ = new BehaviorSubject(localStorage.getItem(AUTH_KEYS.access_token));
+  static readonly observable$ = (this.subject$ as Observable<string>).pipe(filter(x => !!x), distinctUntilChanged());
 
   getClientId(): string {
     return PUBLIC_SPOTIFY_CLIENT_ID;
@@ -25,8 +25,8 @@ export class SvelteSpotifyAuthHelper implements SpotifyAuthHelper, AuthNotifier 
   
   setPersistent(key: AuthKey, value: string): void {
     localStorage.setItem(key, value);
-    if (key === AUTH_KEYS.session)
-      SvelteSpotifyAuthHelper.subject.next(value);
+    if (key === AUTH_KEYS.access_token)
+      SvelteSpotifyAuthHelper.subject$.next(value);
   }
 
   getPersistent(key: AuthKey): string | null {
@@ -39,6 +39,26 @@ export class SvelteSpotifyAuthHelper implements SpotifyAuthHelper, AuthNotifier 
   }
 
   getTokenObserver(): Observable<string> {
-    return SvelteSpotifyAuthHelper.observable;
+    return SvelteSpotifyAuthHelper.observable$;
+  }
+}
+
+export class SvelteSpotifySessionProvider implements SessionProvider {
+  private readonly observable$: Observable<SessionState>;
+
+  constructor(auth: SpotifyAuth, helper: SvelteSpotifyAuthHelper) {
+    const fixAuth = auth.performAuthSolve.bind(auth);
+    const killSession = helper.clearAuth.bind(helper);
+    this.observable$ = helper.getTokenObserver().pipe(map(accessToken => {
+      return {
+        accessToken,
+        fixAuth,
+        killSession
+      }
+    }));
+  }
+
+  getSession(): Observable<SessionState> {
+    return this.observable$;
   }
 }

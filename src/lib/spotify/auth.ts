@@ -57,7 +57,20 @@ export function getCodeFromURL(url: string): string | null {
   return urlParams.get('code');
 }
 
-export async function requestToken(clientId: string, code: string, codeVerifier: string, redirect: string): Promise<string | null> {
+export interface AccessData {
+  access_token: string,
+  expires_in: number,
+  refresh_token: string,
+  scope: string,
+  token_type: string
+}
+
+export async function requestAccessData(
+  clientId: string,
+  code: string,
+  codeVerifier: string,
+  redirect: string
+): Promise<AccessData | null> {
   const body = new URLSearchParams({
     grant_type: 'authorization_code',
     code: code,
@@ -78,10 +91,36 @@ export async function requestToken(clientId: string, code: string, codeVerifier:
 
   if (!json.access_token) return null;
 
-  return json.access_token
+  return json as AccessData;
 }
 
-export const AUTH_KEYS = { session: 'session', code_verifier: 'code_verifier' } as const;
+export async function refreshAccessData(clientId: string, refreshToken: string): Promise<AccessData | null> {
+  const body = new URLSearchParams({
+    grant_type: 'refresh_token',
+    refresh_token: refreshToken,
+    client_id: clientId
+  });
+
+  const response = await fetch('https://accounts.spotify.com/api/token', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body
+  });
+
+  const json = await response.json();
+
+  if (!json.access_token) return null;
+
+  return json as AccessData;
+}
+
+export const AUTH_KEYS = {
+  access_token: 'access_token',
+  code_verifier: 'code_verifier',
+  refresh_token: 'refresh_token'
+} as const;
 
 export type AuthKey = typeof AUTH_KEYS[keyof typeof AUTH_KEYS];
 
@@ -95,12 +134,41 @@ export interface SpotifyAuthHelper {
   clearAuth(): void;
 }
 
+export interface SpotifyAuthOptions {
+  preventiveRefresh: boolean
+}
+
 export class SpotifyAuth {
+  constructor(
+    private readonly helper: SpotifyAuthHelper,
+    private readonly permissions: string[] | string,
+    private readonly opts?: SpotifyAuthOptions
+  ) { }
 
-  constructor(private readonly helper: SpotifyAuthHelper) { }
+  private collectPermissions(): string {
+    return Array.isArray(this.permissions) ? this.permissions.join(' ') : this.permissions;
+  }
 
-  async perform(permissions: string[] | string): Promise<void> {
-    if (this.helper.getPersistent('session')) return;
+  private storeAccess(accessData: AccessData) {
+    this.helper.setPersistent('refresh_token', accessData.refresh_token);
+    this.helper.setPersistent('access_token', accessData.access_token);
+  }
+
+  private async tryRefreshToken(): Promise<boolean> {
+    const refreshToken = this.helper.getPersistent('refresh_token');
+    if (refreshToken) {
+      const data = await refreshAccessData(this.helper.getClientId(), refreshToken);
+      if (data) this.storeAccess(data);
+      return !!data;
+    }
+    return false;
+  }
+
+  async performAuth(): Promise<void> {
+    if (this.helper.getPersistent('access_token')) {
+      if (this.opts?.preventiveRefresh) this.tryRefreshToken();
+      return;
+    }
 
     const code = getCodeFromURL(this.helper.getURL());
 
@@ -108,21 +176,27 @@ export class SpotifyAuth {
       const output = await beginAuthorization(
         this.helper.getClientId(),
         this.helper.getRedirectURL(),
-        (Array.isArray(permissions) ? permissions.join(' ') : permissions)
+        this.collectPermissions()
       );
       this.helper.setPersistent('code_verifier', output.codeVerifier);
       this.helper.navigate(output.url);
     } else {
       const codeVerifier = this.helper.getPersistent('code_verifier');
       if (!codeVerifier) return;
-      const token = await requestToken(
+      const accessData = await requestAccessData(
         this.helper.getClientId(),
         code,
         codeVerifier,
         this.helper.getRedirectURL()
       );
-      if (!token) return;
-      this.helper.setPersistent('session', token);
+      if (accessData) this.storeAccess(accessData);
+    }
+  }
+
+  async performAuthSolve(): Promise<void> {
+    if (!await this.tryRefreshToken()) {
+      this.helper.clearAuth();
+      await this.performAuth();
     }
   }
 }

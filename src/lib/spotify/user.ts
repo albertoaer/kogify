@@ -1,5 +1,5 @@
 import { map, from, mergeMap, first, filter, switchMap, startWith } from 'rxjs';
-import { spotifyRequest, type AuthNotifier } from './base';
+import { spotifyRequest, type SessionProvider } from './base';
 
 export interface UserResult {
   display_name: string | null,
@@ -8,8 +8,8 @@ export interface UserResult {
   }[]
 }
 
-export function manageUser(auth: AuthNotifier) {
-  const userData$ = auth.getTokenObserver().pipe(switchMap(token => from(spotifyRequest<UserResult>(token, 'v1/me'))));
+export function manageUser(provider: SessionProvider) {
+  const userData$ = provider.getSession().pipe(switchMap(session => from(spotifyRequest<UserResult>(session, 'v1/me'))));
 
   return {
     userData$,
@@ -36,9 +36,9 @@ export interface Top<K> {
   items: K[]
 }
 
-export function manageTopArtists(auth: AuthNotifier) {
-  const topArtistData$ = auth.getTokenObserver().pipe(
-    switchMap(token => from(spotifyRequest<Top<TopArtist>>(token, 'v1/me/top/artists'))),
+export function manageTopArtists(provider: SessionProvider) {
+  const topArtistData$ = provider.getSession().pipe(
+    switchMap(session => from(spotifyRequest<Top<TopArtist>>(session, 'v1/me/top/artists'))),
     map(x => x.items),
     startWith([])
   );
