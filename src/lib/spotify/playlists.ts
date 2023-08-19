@@ -3,7 +3,7 @@ import { spotifyRequest, type Image, type SessionProvider, type IterableResponse
 
 export interface Playlist {
   description: string,
-  id: number,
+  id: string,
   images: Image[],
   name: string,
   tracks: {
