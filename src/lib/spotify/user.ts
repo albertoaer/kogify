@@ -26,6 +26,7 @@ export type UserManager = ReturnType<typeof manageUser>;
 export interface TopArtist {
   genres: string[],
   name: string,
+  id: string,
   images: {
     url: string
   }[],
