@@ -1,15 +1,15 @@
 import { map, from, mergeMap, first, filter, switchMap, startWith } from 'rxjs';
-import { spotifyRequest, type SessionProvider } from './base';
+import { spotifyRequest, type SessionProvider, type IterableResponse, type Image } from './base';
 
 export interface UserResult {
   display_name: string | null,
-  images: {
-    url: string
-  }[]
+  images: Image[]
 }
 
 export function manageUser(provider: SessionProvider) {
-  const userData$ = provider.getSession().pipe(switchMap(session => from(spotifyRequest<UserResult>(session, 'v1/me'))));
+  const userData$ = provider.getSession().pipe(
+    switchMap(session => from(spotifyRequest<UserResult>(session, 'v1/me')))
+  );
 
   return {
     userData$,
@@ -29,18 +29,15 @@ export interface TopArtist {
   images: {
     url: string
   }[],
-  popularity: number
-}
-
-export interface Top<K> {
-  items: K[]
+  popularity: number,
+  type: 'artist'
 }
 
 export function manageTopArtists(provider: SessionProvider) {
   const topArtistData$ = provider.getSession().pipe(
-    switchMap(session => from(spotifyRequest<Top<TopArtist>>(session, 'v1/me/top/artists'))),
+    switchMap(session => from(spotifyRequest<IterableResponse<TopArtist>>(session, 'v1/me/top/artists'))),
     map(x => x.items),
-    startWith([])
+    startWith([] as TopArtist[])
   );
 
   return  {

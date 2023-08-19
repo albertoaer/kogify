@@ -34,3 +34,19 @@ export interface SessionState {
 export interface SessionProvider {
   getSession(): Observable<SessionState>
 }
+
+export interface Image {
+  url: string,
+  height: number,
+  width: number
+}
+
+export interface IterableResponse<K> {
+  href: string,
+  next: string | null,
+  previous: string | null,
+  total: number,
+  offset: number,
+  limit: number,
+  items: K[]
+}
