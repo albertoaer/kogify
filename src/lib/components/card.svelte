@@ -24,6 +24,8 @@
     position: relative;
     background-color: var(--color-strongest);
     overflow: hidden;
+    width: 100%;
+    height: 100%;
   }
 
   .item[href] {
