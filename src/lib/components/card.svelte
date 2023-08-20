@@ -4,9 +4,10 @@
   export let href: string | undefined = undefined;
   export let blur: boolean = false;
   export let hiddenContent: boolean = false;
+  export let rounded: boolean = false;
 </script>
 
-<a class="item" {href}>
+<a class="item" {href} class:rounded>
   <img src={images[0]} alt={name} class:blur/>
   <div class="content" class:hiddenContent>
     <slot />
@@ -26,6 +27,10 @@
     overflow: hidden;
     width: 100%;
     height: 100%;
+  }
+  
+  .rounded {
+    border-radius: 5px;
   }
 
   .item[href] {

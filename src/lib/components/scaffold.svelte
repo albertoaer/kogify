@@ -7,7 +7,7 @@
 
 <div id="main">
   <div class="img">
-    <Card {images} {name}></Card>
+    <Card {images} {name} rounded></Card>
   </div>
   <div id="info">
     <h1 class="center">{name}</h1>
@@ -63,7 +63,6 @@
     display: block;
     width: 20em;
     height: 20em;
-    border-radius: 5px;
     overflow: hidden;
     box-shadow: 4px 2px 10px 0px black;
   }
