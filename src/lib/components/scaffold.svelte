@@ -56,6 +56,7 @@
   #content, #more {
     flex-grow: 1;
     flex-basis: 100%;
+    max-width: 100%;
   }
 
   .img {
