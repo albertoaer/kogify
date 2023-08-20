@@ -1,11 +1,20 @@
 import type { Observable } from "rxjs";
 
+const BASE_ADDRESS = 'https://api.spotify.com/';
+
 export async function spotifyRequest<K>(
   provider: SessionState,
   endpoint: string,
-  body?: Record<string, string>
+  opts?: { params?: Record<string, string>, body?: Record<string, string> }
 ): Promise<K> {
-  const request = (token: string) => fetch('https://api.spotify.com/' + endpoint, {
+  let address = endpoint.startsWith(BASE_ADDRESS) ? endpoint : BASE_ADDRESS + endpoint;
+
+  const body = opts?.body;
+  const params = opts?.params;
+
+  if (params) address += '?' + new URLSearchParams(params);
+
+  const request = (token: string) => fetch(address, {
     headers: {
       Authorization: 'Bearer ' + token
     },
