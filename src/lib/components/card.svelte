@@ -1,14 +1,16 @@
 <script lang="ts">
-  export let images: string[];
+  export let src: string;
   export let name: string;
   export let href: string | undefined = undefined;
   export let blur: boolean = false;
   export let hiddenContent: boolean = false;
   export let rounded: boolean = false;
+  export let shadow: `${number}px ${number}px ${number}px ${number}px ${string}` | undefined = undefined;
+  export let size: `${number}${'em' | 'px'}` | undefined = undefined;
 </script>
 
-<a class="item" {href} class:rounded>
-  <img src={images[0]} alt={name} class:blur/>
+<a class="item" {href} class:rounded class:size class:shadow style="--var-size: {size}; --var-shadow: {shadow}">
+  <img {src} alt={name} class:blur/>
   <div class="content" class:hiddenContent>
     <slot />
   </div>
@@ -27,6 +29,15 @@
     overflow: hidden;
     width: 100%;
     height: 100%;
+  }
+
+  .item.size {
+    width: var(--var-size);
+    height: var(--var-size);
+  }
+
+  .item.shadow {
+    box-shadow: var(--var-shadow);
   }
   
   .rounded {

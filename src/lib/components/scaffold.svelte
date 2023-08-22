@@ -1,14 +1,12 @@
 <script lang="ts">
 	import { Card } from ".";
 
-  export let images: string[];
+  export let image: string;
   export let name: string;
 </script>
 
 <div id="main">
-  <div class="img">
-    <Card {images} {name} rounded></Card>
-  </div>
+  <Card src={image} {name} rounded size="20em" shadow="4px 2px 10px 0px black" />
   <div id="info">
     <h1 class="center">{name}</h1>
     <slot name="info" />
@@ -57,13 +55,5 @@
     flex-grow: 1;
     flex-basis: 100%;
     max-width: 100%;
-  }
-
-  .img {
-    display: block;
-    width: 20em;
-    height: 20em;
-    overflow: hidden;
-    box-shadow: 4px 2px 10px 0px black;
   }
 </style>

@@ -16,7 +16,7 @@
 
 <div class="wrapper">
   {#each $cardData$ as item}
-    <Card images={item.images.map(x => x.url)} name={item.name} blur hiddenContent href="/{item.type}/{item.id}">
+    <Card src={item.images[0].url} name={item.name} blur hiddenContent href="/{item.type}/{item.id}">
       <div class="card-content">
         <h1>{item.name}</h1>
         {#if item.type === 'artist'}
