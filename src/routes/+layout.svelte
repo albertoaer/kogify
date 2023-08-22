@@ -7,7 +7,9 @@
 	import { APP_TITLE, DEFAULT_THEME, SESSION_PROVIDER_KEY, SPOTIFY_PERMISSIONS } from "$lib/constants";
 
   const helper = new SvelteSpotifyAuthHelper();
-  const auth = new SpotifyAuth(helper, SPOTIFY_PERMISSIONS);
+  const auth = new SpotifyAuth(helper, SPOTIFY_PERMISSIONS, {
+    preventiveRefresh: true
+  });
   
   const sessionProvider = new SvelteSpotifySessionProvider(auth, helper);
 
@@ -21,9 +23,7 @@
 {:then}
   <Header title={APP_TITLE} manager={manageUser(sessionProvider)} />
 
-  <div id="content">
-    <slot />
-  </div>
+  <slot />
 {/await}
 
 <svelte:head>
@@ -31,16 +31,17 @@
 </svelte:head>
 
 <style>
+  :global(html) {
+    box-sizing: border-box;
+  }
+
+  :global(*, *:before, *:after) {
+    box-sizing: inherit;
+  }
+
   :global(body) {
     margin: 0;
     padding: 0;
     background-color: var(--color-light-B);
-  }
-
-  #content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
   }
 </style>

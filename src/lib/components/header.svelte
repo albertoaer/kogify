@@ -80,12 +80,23 @@
     transition: 500ms all ease;
   }
 
+  img {
+    height: 70%;
+    width: auto;
+    border-radius: 20%;
+  }
+
   .breath {
     padding: 0 0.7em;
   }
 
-  img {
-    height: 2em;
-    border-radius: 20%;
+  @media (max-width: 600px) {
+    .breath {
+      padding: 0 0.3em;
+    }
+
+    a {
+      padding: 0 0.5em;
+    }
   }
 </style>
