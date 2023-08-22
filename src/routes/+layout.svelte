@@ -2,7 +2,7 @@
   import { manageUser } from "$lib/spotify";
 	import { SpotifyAuth } from "$lib/spotify/auth";
 	import { Header } from "$lib/components";
-	import { SvelteSpotifyAuthHelper, SvelteSpotifySessionProvider } from "$lib/utils/svelte_spotify_auth";
+	import { SvelteSpotifyAuthHelper, SvelteSpotifySessionProvider } from "$lib/svelte_spotify_auth";
 	import { setContext } from "svelte";
 	import { APP_TITLE, DEFAULT_THEME, SESSION_PROVIDER_KEY, SPOTIFY_PERMISSIONS } from "$lib/constants";
 
