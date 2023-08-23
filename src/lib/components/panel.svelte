@@ -2,9 +2,10 @@
   export let title: string = '';
   export let centerTitle: boolean = false;
   export let base: number = 50;
+  export let bigPanel: boolean = false;
 </script>
 
-<div id="panel" style="--var-base: {base}%">
+<div id="panel" style="--var-base: {base}%" class:big-panel={bigPanel}>
   {#if title}
     <h1 class:centerTitle>{title}</h1>
   {/if}
@@ -28,6 +29,12 @@
   @media (max-width: 500px) {
     #panel {
       border-radius: 0px;
+    }
+  }
+  
+  @media (max-width: 1200px) {
+    #panel.big-panel {
+      flex-basis: 100%;
     }
   }
 </style>
