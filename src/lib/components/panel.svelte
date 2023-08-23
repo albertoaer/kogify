@@ -7,7 +7,10 @@
 
 <div id="panel" style="--var-base: {base}%" class:big-panel={bigPanel}>
   {#if title}
-    <h1 class:centerTitle>{title}</h1>
+    <div id="title">
+      <h1 class:centerTitle>{title}</h1>
+      <slot name="title-content" />
+    </div>
   {/if}
   <slot />
 </div>
@@ -24,6 +27,13 @@
     flex-grow: 1;
     flex-basis: var(--var-base);
     max-width: 100%;
+  }
+
+  #title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1em;
   }
 
   @media (max-width: 500px) {

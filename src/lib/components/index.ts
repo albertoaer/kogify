@@ -5,3 +5,6 @@ export { default as Scaffold } from './scaffold.svelte';
 export { default as Chart } from './chart.svelte';
 export { default as Container } from './container.svelte';
 export { default as Panel } from './panel.svelte';
+export { default as Expandable } from './expandable.svelte';
+export { default as ExpandablePanel } from './expandable_panel.svelte';
+export { default as ListItem } from './authored_item.svelte';
