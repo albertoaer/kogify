@@ -1,27 +1,22 @@
 <script lang="ts">
-  interface WithLink<T> {
-    value: T,
-    href: string
-  }
-
   export let index: number | undefined = undefined;
-  export let item: WithLink<string>;
-  export let authors: WithLink<string>[];
+  export let title: string;
+  export let href: string = "";
+  export let authors: [string, string][] = [];
 </script>
 
 <li>
   {#if index !== undefined}
     <span>{index+1}. </span>
   {/if}
-  <a href={item.href} id="title">
-    {item.value}
-  </a>
+  <a {href} id="title">{title}</a>
+  <div id="options">
+    <slot />
+  </div>
   {#if authors.length}
     <ul id="authors">
-      {#each authors as author}
-        <a href={author.href}>
-          {author.value}
-        </a>
+      {#each authors as [author, href]}
+        <a {href}>{author}</a>
       {/each}
     </ul>
   {/if}
@@ -42,6 +37,14 @@
 
   a:hover {
     text-decoration: underline;
+  }
+
+  #options {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    font-size: 0.6em;
+    margin-left: 1em;
   }
 
   #authors {

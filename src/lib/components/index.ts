@@ -7,4 +7,5 @@ export { default as Container } from './container.svelte';
 export { default as Panel } from './panel.svelte';
 export { default as Expandable } from './expandable.svelte';
 export { default as ExpandablePanel } from './expandable_panel.svelte';
-export { default as ListItem } from './authored_item.svelte';
+export { default as AuthoredItem } from './authored_item.svelte';
+export { default as AudioPlayerButton } from './audio_player_button.svelte';

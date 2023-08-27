@@ -27,6 +27,7 @@
     flex-grow: 1;
     flex-basis: var(--var-base);
     max-width: 100%;
+    position: relative;
   }
 
   #title {
