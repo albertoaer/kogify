@@ -10,10 +10,10 @@
 
 <header>
   <ul>
-    <h1 class="breath">{title}</h1>
+    <a href="/"><h1 class="breath">{title}</h1></a>
   </ul>
   <ul>
-    <li><a href="/">Home</a></li>
+    <li class="mayHide"><a href="/">Home</a></li>
     <li><a href="/about">About</a></li>
     <li>
       <a href="/profile">
@@ -97,6 +97,12 @@
 
     a {
       padding: 0 0.5em;
+    }
+  }
+
+  @media (max-width: 350px) {
+    .mayHide {
+      display: none;
     }
   }
 </style>

@@ -20,7 +20,7 @@
     color: var(--color-light-A);
     background-color: var(--color-strongest);
     border-radius: 5px;
-    padding: 0 1.5em;
+    padding: 2em 1.5em;
     margin: 0;
     overflow-y: auto;
     overflow-x: hidden;
@@ -35,6 +35,11 @@
     flex-direction: row;
     align-items: center;
     gap: 1em;
+    margin-bottom: 2em;
+  }
+
+  #title > h1 {
+    margin: 0;
   }
 
   @media (max-width: 500px) {

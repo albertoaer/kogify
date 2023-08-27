@@ -40,7 +40,8 @@
   }
 
   #options {
-    display: inline-block;
+    display: inline-flex;
+    gap: 0.8em;
     margin: 0;
     padding: 0;
     font-size: 0.6em;
