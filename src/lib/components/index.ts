@@ -9,3 +9,4 @@ export { default as Expandable } from './expandable.svelte';
 export { default as ExpandablePanel } from './expandable_panel.svelte';
 export { default as AuthoredItem } from './authored_item.svelte';
 export { default as AudioPlayerButton } from './audio_player_button.svelte';
+export { default as Tags } from './tags.svelte';

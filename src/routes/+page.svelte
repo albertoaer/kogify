@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { Card } from "$lib/components";
+	import { Card, Tags } from "$lib/components";
 	import { SESSION_PROVIDER_KEY } from "$lib/constants";
 	import { manageTopArtists } from "$lib/spotify";
 	import { manageMyPlaylists } from "$lib/spotify/playlists";
-	import type { SvelteSpotifySessionProvider } from "$lib/utils/svelte_spotify_auth";
+	import type { SvelteSpotifySessionProvider } from "$lib/svelte_spotify_auth";
 	import { combineLatest, map } from "rxjs";
   import { getContext } from "svelte";
 
@@ -20,11 +20,7 @@
       <div class="card-content">
         <h1>{item.name}</h1>
         {#if item.type === 'artist'}
-          <ul class="tags">
-            {#each item.genres as genre}
-              <li>{genre}</li>
-            {/each}
-          </ul>
+          <Tags tags={item.genres} />
         {:else}
           <h2>{item.tracks.total} songs</h2>
           <h3>{item.description}</h3>
@@ -51,22 +47,5 @@
   .card-content {
     text-align: center;
     padding: 1em;
-  }
-
-  .tags {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    padding: 0;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .tags li {
-    list-style: none;
-    margin: 0.2em;
-    border-radius: 5px;
-    background-color: var(--color-strong-B);
-    padding: 0.4em;
   }
 </style>
