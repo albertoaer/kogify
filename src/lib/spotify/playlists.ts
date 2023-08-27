@@ -41,11 +41,11 @@ export interface TrackArtist {
   id: string,
   name: string,
   uri: string,
-  genres: string[]
 }
 
 export interface Track {
   name: string,
+  duration_ms: number,
   popularity: number,
   preview_url: string,
   id: string,
@@ -54,8 +54,8 @@ export interface Track {
   type: 'track'
 }
 
-const TRACK_FIELDS = `href,limit,next,offset,previous,total,items(track(name,popularity,preview_url,id,
-album(album_type,total_tracks,href,id,name,release_date,album_group),artists(href,id,name,uri,genres),type))`
+const TRACK_FIELDS = `href,limit,next,offset,previous,total,items(track(name,popularity,duration_ms,preview_url,id,
+album(album_type,total_tracks,href,id,name,release_date,album_group),artists,type))`
 
 function getRecursiveTracksOf(provider: SessionProvider, href: string, array: Track[], params?: Record<string, string>): Observable<Track[]> {
   return provider.getSession().pipe(
