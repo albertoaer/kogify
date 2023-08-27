@@ -1,0 +1,9 @@
+:root {
+  --color-light-A: hsl(0, 0%, 92%);
+  --color-light-B: hsl(197, 18%, 50%);
+  --color-strong-A: hsl(88, 60%, 50%);
+  --color-strong-B: hsl(350, 89%, 53%);
+  --color-strongest: hsl(184, 100%, 3%);
+
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
