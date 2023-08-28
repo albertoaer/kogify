@@ -2,10 +2,11 @@
   export let title: string = '';
   export let centerTitle: boolean = false;
   export let base: number = 50;
+  export let grow: boolean = true;
   export let bigPanel: boolean = false;
 </script>
 
-<div id="panel" style="--var-base: {base}%" class:big-panel={bigPanel}>
+<div id="panel" style="--var-base: {base}%;" class:big-panel={bigPanel} class:grow>
   {#if title}
     <div id="title">
       <h1 class:centerTitle>{title}</h1>
@@ -24,10 +25,13 @@
     margin: 0;
     overflow-y: auto;
     overflow-x: hidden;
-    flex-grow: 1;
+    flex-grow: 0;
     flex-basis: var(--var-base);
-    max-width: 100%;
     position: relative;
+  }
+
+  #panel.grow {
+    flex-grow: 1;
   }
 
   #title {

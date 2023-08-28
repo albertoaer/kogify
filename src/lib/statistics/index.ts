@@ -21,6 +21,14 @@ export class Stats1D<T> {
     return new Stats1D<T>(result);
   }
 
+  get count(): number {
+    return this.data.length;
+  }
+
+  collect(): T[] {
+    return this.data.map(x => x.ref);
+  }
+
   avg(): number {
     return Math.round(this.data.reduce((a, b) => a + b.value, 0) / this.data.length);
   }
@@ -48,6 +56,12 @@ export class Stats1D<T> {
   filter(predicate: (value: StatValue1D<T>, stats: Stats1D<T>) => boolean): Stats1D<T> {
     return new Stats1D<T>(
       this.data.filter(x => predicate(x, this))
+    );
+  }
+
+  map<K>(transform: (value: StatValue1D<T>, stats: Stats1D<T>) => [string, K][]): Stats1D<K> {
+    return Stats1D.buildFrom(
+      this.data.map(x => transform(x, this)).flat()
     );
   }
 

@@ -27,6 +27,10 @@ export interface TopArtist {
   genres: string[],
   name: string,
   id: string,
+  external_urls: {
+    spotify: string
+  },
+  uri: string,
   images: {
     url: string
   }[],

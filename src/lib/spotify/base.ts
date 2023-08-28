@@ -3,7 +3,7 @@ import type { Observable } from "rxjs";
 const BASE_ADDRESS = 'https://api.spotify.com/';
 
 export async function spotifyRequest<K>(
-  provider: SessionState,
+  session: SessionState,
   endpoint: string,
   opts?: { params?: Record<string, string>, body?: Record<string, string> }
 ): Promise<K> {
@@ -18,17 +18,18 @@ export async function spotifyRequest<K>(
     headers: {
       Authorization: 'Bearer ' + token
     },
-    body: body ? JSON.stringify(body) : undefined
+    body: body ? JSON.stringify(body) : undefined,
+    cache: 'force-cache'
   });
 
-  const response = await request(provider.accessToken);
+  const response = await request(session.accessToken);
   if (response.status === 200) return response.json();
 
   const rateLimit = () => { throw new Error('Exceeded rate limit') }
   if (response.status === 429) rateLimit();
 
   if (response.status === 401 || response.status === 403) {
-    await provider.fixAuth();
+    await session.fixAuth();
   }
 
   throw new Error('Unknown status code');

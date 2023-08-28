@@ -6,6 +6,9 @@ export interface Playlist {
   id: string,
   images: Image[],
   name: string,
+  external_urls: {
+    spotify: string
+  },
   tracks: {
     href: string,
     total: number
@@ -71,11 +74,11 @@ function getRecursiveTracksOf(provider: SessionProvider, href: string, array: Tr
 }
 
 export function getTracksOf(provider: SessionProvider, playlist: Playlist) {
-  const playlistTracks = getRecursiveTracksOf(provider, playlist.tracks.href, [], { 'fields': TRACK_FIELDS, 'limit': '50' }).pipe(
+  const playlistTracks$ = getRecursiveTracksOf(provider, playlist.tracks.href, [], { 'fields': TRACK_FIELDS, 'limit': '50' }).pipe(
     startWith([] as Track[])
   );
   return {
-    playlistTracks
+    playlistTracks$
   };
 }
 
