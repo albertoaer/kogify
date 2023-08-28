@@ -28,6 +28,7 @@
 
 <svelte:head>
   <link rel="stylesheet" href={DEFAULT_THEME}>
+  <title>{APP_TITLE}</title>
 </svelte:head>
 
 <style>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Card, ContentCard, Tags } from "$lib/components";
+	import { Card, ContentCard, Grid, Tags } from "$lib/components";
 	import { SESSION_PROVIDER_KEY } from "$lib/constants";
 	import { isPolicyEnabled } from "$lib/policy";
 	import { manageTopArtists } from "$lib/spotify";
@@ -18,36 +18,25 @@
   const cardKind: ComponentType = cardPolicy ? ContentCard : Card;
 </script>
 
-<div class="wrapper">
+<Grid>
   {#each $cardData$ as item}
     <svelte:component this={cardKind} src={item.images[0].url} name={item.name} blur hiddenContent href="/{item.type}/{item.id}">
       <div class="card-content">
         <h1>{item.name}</h1>
-        {#if item.type === 'artist'}
-          <Tags tags={item.genres} />
-        {:else}
-          <h2>{item.tracks.total} songs</h2>
-          <h3>{item.description}</h3>
+        {#if !cardPolicy}
+          {#if item.type === 'artist'}
+            <Tags tags={item.genres} background />
+          {:else}
+            <h2>{item.tracks.total} songs</h2>
+            <h3>{item.description}</h3>
+          {/if}
         {/if}
       </div>
     </svelte:component>
   {/each}
-</div>
+</Grid>
 
 <style>
-  .wrapper {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    grid-auto-rows: minmax(400px, auto);
-    width: 100%;
-  }
-
-  @media (max-width: 500px) {
-    .wrapper {
-      grid-template-columns: 1fr;
-    }
-  }
-
   .card-content {
     text-align: center;
     padding: 1em;

@@ -11,3 +11,6 @@ export { default as ExpandablePanel } from './expandable_panel.svelte';
 export { default as AuthoredItem } from './authored_item.svelte';
 export { default as AudioPlayerButton } from './audio_player_button.svelte';
 export { default as Tags } from './tags.svelte';
+export { default as Link } from './link.svelte';
+export { default as Row } from './row.svelte';
+export { default as Grid } from './grid.svelte';

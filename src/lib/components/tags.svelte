@@ -1,8 +1,9 @@
 <script lang="ts">
   export let tags: (string | [string, string])[];
+  export let background: boolean = false;
 </script>
 
-<ul class="tags">
+<ul class="tags" class:background>
   {#each tags as genre}
     <li>{genre}</li>
   {/each}
@@ -22,7 +23,10 @@
     list-style: none;
     margin: 0.2em;
     border-radius: 5px;
-    background-color: var(--color-strong-B);
     padding: 0.4em;
+  }
+  
+  ul.background li {
+    background-color: var(--color-strong-B);
   }
 </style>
