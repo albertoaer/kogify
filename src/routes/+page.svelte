@@ -1,22 +1,26 @@
 <script lang="ts">
-	import { Card, Tags } from "$lib/components";
+	import { Card, ContentCard, Tags } from "$lib/components";
 	import { SESSION_PROVIDER_KEY } from "$lib/constants";
+	import { isPolicyEnabled } from "$lib/policy";
 	import { manageTopArtists } from "$lib/spotify";
 	import { manageMyPlaylists } from "$lib/spotify/playlists";
 	import type { SvelteSpotifySessionProvider } from "$lib/svelte_spotify_auth";
 	import { combineLatest, map } from "rxjs";
-  import { getContext } from "svelte";
+  import { getContext, type ComponentType } from "svelte";
 
   const provider: SvelteSpotifySessionProvider = getContext(SESSION_PROVIDER_KEY);
   const { topArtistData$ } = manageTopArtists(provider);
   const { myPlaylists$ } = manageMyPlaylists(provider);
 
   const cardData$ = combineLatest([myPlaylists$, topArtistData$]).pipe(map(([a, b]) => [...a, ...b]));
+
+  const cardPolicy = isPolicyEnabled('card-policy');
+  const cardKind: ComponentType = cardPolicy ? ContentCard : Card;
 </script>
 
 <div class="wrapper">
   {#each $cardData$ as item}
-    <Card src={item.images[0].url} name={item.name} blur hiddenContent href="/{item.type}/{item.id}">
+    <svelte:component this={cardKind} src={item.images[0].url} name={item.name} blur hiddenContent href="/{item.type}/{item.id}">
       <div class="card-content">
         <h1>{item.name}</h1>
         {#if item.type === 'artist'}
@@ -26,7 +30,7 @@
           <h3>{item.description}</h3>
         {/if}
       </div>
-    </Card>
+    </svelte:component>
   {/each}
 </div>
 
