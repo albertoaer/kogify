@@ -25,6 +25,10 @@ export class Stats1D<T> {
     return this.data.length;
   }
 
+  at(idx: number): StatValue1D<T> | undefined {
+    return this.data.at(idx);
+  }
+
   collect(): T[] {
     return this.data.map(x => x.ref);
   }

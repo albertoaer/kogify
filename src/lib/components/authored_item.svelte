@@ -26,6 +26,7 @@
   li {
     margin-bottom: 1.4em;
     list-style: none;
+    break-inside: avoid-column;
   }
 
   a, a:hover, a:focus {

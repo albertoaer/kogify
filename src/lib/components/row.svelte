@@ -1,9 +1,11 @@
 <script lang="ts">
   export let justify: 'start' | 'center' | 'end' | 'space-around' | 'space-evenly' | 'space-between';
   export let wrap: boolean = false;
+  export let margin: boolean = false;
+  export let grow: boolean = false;
 </script>
 
-<div class:wrap style="--var-justify: {justify}">
+<div class:wrap class:margin class:grow style="--var-justify: {justify}">
   <slot />
 </div>
 
@@ -18,5 +20,13 @@
 
   div.wrap {
     flex-wrap: wrap;
+  }
+
+  div.margin {
+    margin: 1em 0;
+  }
+
+  div.grow {
+    flex-grow: 1;
   }
 </style>
