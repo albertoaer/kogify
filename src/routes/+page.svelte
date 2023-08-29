@@ -2,15 +2,15 @@
 	import { Card, ContentCard, Grid, Tags } from "$lib/components";
 	import { SESSION_PROVIDER_KEY } from "$lib/constants";
 	import { isPolicyEnabled } from "$lib/policy";
-	import { manageTopArtists } from "$lib/spotify";
-	import { manageMyPlaylists } from "$lib/spotify/playlists";
+	import { getTopArtists } from "$lib/spotify";
+	import { getMyPlaylists } from "$lib/spotify/playlists";
 	import type { SvelteSpotifySessionProvider } from "$lib/svelte_spotify_auth";
 	import { combineLatest, map } from "rxjs";
   import { getContext, type ComponentType } from "svelte";
 
   const provider: SvelteSpotifySessionProvider = getContext(SESSION_PROVIDER_KEY);
-  const { topArtistData$ } = manageTopArtists(provider);
-  const { myPlaylists$ } = manageMyPlaylists(provider);
+  const { topArtistData$ } = getTopArtists(provider);
+  const { myPlaylists$ } = getMyPlaylists(provider);
 
   const cardData$ = combineLatest([myPlaylists$, topArtistData$]).pipe(map(([a, b]) => [...a, ...b]));
 

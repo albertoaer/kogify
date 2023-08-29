@@ -1,5 +1,5 @@
 <script>
-  import { manageUser } from "$lib/spotify";
+  import { getUser } from "$lib/spotify";
 	import { SpotifyAuth } from "$lib/spotify/auth";
 	import { Header } from "$lib/components";
 	import { SvelteSpotifyAuthHelper, SvelteSpotifySessionProvider } from "$lib/svelte_spotify_auth";
@@ -21,7 +21,7 @@
 {#await login}
   <h1>Loading...</h1>
 {:then}
-  <Header title={APP_TITLE} manager={manageUser(sessionProvider)} />
+  <Header title={APP_TITLE} manager={getUser(sessionProvider)} />
 
   <slot />
 {/await}

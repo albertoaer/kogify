@@ -17,7 +17,7 @@ export interface Playlist {
   type: 'playlist'
 }
 
-export function manageMyPlaylists(provider: SessionProvider) {
+export function getMyPlaylists(provider: SessionProvider) {
   const myPlaylists$ = provider.getSession().pipe(
     switchMap(session => from(spotifyRequest<IterableResponse<Playlist>>(session, 'v1/me/playlists'))),
     map(x => x.items),
@@ -28,6 +28,8 @@ export function manageMyPlaylists(provider: SessionProvider) {
     myPlaylists$
   }
 }
+
+export type MyPlaylistsManager = ReturnType<typeof getMyPlaylists>;
 
 export interface TrackAlbum {
   album_type: string,
@@ -81,5 +83,3 @@ export function getTracksOf(provider: SessionProvider, playlist: Playlist) {
     playlistTracks$
   };
 }
-
-export type MyPlaylistsManager = ReturnType<typeof manageMyPlaylists>;
