@@ -4,7 +4,7 @@
   export let alt: boolean = false;
 </script>
 
-<a {href} target={blank ? "_blank" : "_self"} class:alt><slot /></a>
+<a {href} target={blank ? "_blank" : undefined} class:alt><slot /></a>
 
 <style>
   a {

@@ -8,7 +8,10 @@
 </script>
 
 <Panel {...$$restProps}>
-  <Button slot='title-content' on:click={_ => active = !active}>{active ? 'Less' : 'More'}</Button>
+  <svelte:fragment slot='title-content'>
+    <Button on:click={_ => active = !active}>{active ? 'Less' : 'More'}</Button>
+    <slot name='title-content' />
+  </svelte:fragment>
   <Expandable {active}>
     <slot />
   </Expandable>
