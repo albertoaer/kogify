@@ -2,7 +2,7 @@
 	import { Panel, Row, Scaffold } from "$lib/components";
   import Button from "$lib/components/button.svelte";
 	import { SESSION_PROVIDER_KEY } from "$lib/constants";
-	import { manageUser, type UserResult } from "$lib/spotify";
+	import { getUser, type UserProfile } from "$lib/spotify";
 	import type { SvelteSpotifySessionProvider } from "$lib/svelte_spotify_auth";
 	import { first } from "rxjs";
 	import { getContext } from "svelte";
@@ -13,8 +13,8 @@
     provider.getSession().pipe(first()).subscribe(val => val.killSession());
   }
 
-  const { userData$ } = manageUser(provider);
-  let userData: UserResult | undefined = undefined;
+  const { userData$ } = getUser(provider);
+  let userData: UserProfile | undefined = undefined;
   $: userData = $userData$;
   
 </script>
