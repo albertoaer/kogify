@@ -2,7 +2,7 @@
   export let alt: boolean = false;
 </script>
 
-<button on:click class:alt>
+<button on:click on:mouseover on:mouseout on:focus on:blur class:alt>
   <slot />
 </button>
 

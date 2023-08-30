@@ -14,3 +14,7 @@ export { default as Tags } from './tags.svelte';
 export { default as Link } from './link.svelte';
 export { default as Row } from './row.svelte';
 export { default as Grid } from './grid.svelte';
+export { default as ChartPanel } from './chart_panel.svelte';
+export { default as SongList } from './song_list.svelte';
+export { default as DescriptionPanel } from './description_panel.svelte';
+export { default as BackButton } from './back_button.svelte';

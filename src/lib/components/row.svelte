@@ -3,9 +3,10 @@
   export let wrap: boolean = false;
   export let margin: boolean = false;
   export let grow: boolean = false;
+  export let fullWidth: boolean = false;
 </script>
 
-<div class:wrap class:margin class:grow style="--var-justify: {justify}">
+<div class:wrap class:margin class:grow class:fullWidth style="--var-justify: {justify}">
   <slot />
 </div>
 
@@ -28,5 +29,9 @@
 
   div.grow {
     flex-grow: 1;
+  }
+
+  div.fullWidth {
+    width: 100%;
   }
 </style>

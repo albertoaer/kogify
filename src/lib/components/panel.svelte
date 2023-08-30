@@ -18,10 +18,12 @@
 
 <style>
   #panel {
+    display: flex;
+    flex-direction: column;
     color: var(--color-light-A);
     background-color: var(--color-strongest);
     border-radius: 5px;
-    padding: 2em 1.5em;
+    padding: 1em 1em 1.5em 1.5em;
     margin: 0;
     overflow-y: auto;
     overflow-x: hidden;
