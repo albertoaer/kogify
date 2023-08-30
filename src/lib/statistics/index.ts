@@ -69,6 +69,12 @@ export class Stats1D<T> {
     );
   }
 
+  replaceMap(transform: (value: StatValue1D<T>, stats: Stats1D<T>) => StatValue1D<T>): Stats1D<T> {
+    return new Stats1D(
+      this.data.map(x => transform(x, this))
+    );
+  }
+
   group(labelOfMany: string): Stats1D<T[]> {
     const grouped: StatValue1D<T[]>[] = [];
     for (const item of this.data) {
