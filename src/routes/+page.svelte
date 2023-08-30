@@ -16,11 +16,18 @@
 
   const cardPolicy = isPolicyEnabled('card-policy');
   const cardKind: ComponentType = cardPolicy ? ContentCard : Card;
+  const cardProps = cardPolicy ? {} : { blur: true, hiddenContent: true };
 </script>
 
 <Grid>
   {#each $cardData$ as item}
-    <svelte:component this={cardKind} src={item.images[0].url} name={item.name} blur hiddenContent href="/{item.type}/{item.id}">
+    <svelte:component
+      this={cardKind}
+      src={item.images[0].url}
+      name={item.name}
+      href="/{item.type}/{item.id}"
+      {...cardProps}
+    >
       <div class="card-content">
         <h1>{item.name}</h1>
         {#if !cardPolicy}
