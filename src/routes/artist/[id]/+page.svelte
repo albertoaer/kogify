@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Link, Panel, Row, Scaffold, Tags } from '$lib/components';
+	import { Scaffold, DescriptionPanel } from '$lib/components';
 	import { SESSION_PROVIDER_KEY } from '$lib/constants';
 	import { getTopArtists, type TopArtist } from '$lib/spotify';
 	import { getArtist } from '$lib/spotify/artist.js';
@@ -24,12 +24,11 @@
 
 {#if artist}
   <Scaffold name={artist.name} image={artist.images[0].url}>
-    <Panel title={artist.name}>
-      <Row justify='space-around'>
-        <Link href={artist.external_urls.spotify} blank>Go to spotify page</Link>
-        <Link href={artist.uri} alt>Go to spotify app</Link>
-      </Row>
-      <Tags tags={artist.genres} />
-    </Panel>
+    <DescriptionPanel
+      title={artist.name}
+      tags={artist.genres}
+      pageLink={artist.external_urls.spotify}
+      appLink={artist.uri}
+    />
   </Scaffold>
 {/if}
