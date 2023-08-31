@@ -1,28 +1,17 @@
 <script>
-  import { getUser } from "$lib/spotify";
-	import { SpotifyAuth } from "$lib/spotify/auth";
 	import { Header } from "$lib/components";
-	import { SvelteSpotifyAuthHelper, SvelteSpotifySessionProvider } from "$lib/svelte_spotify_auth";
-	import { setContext } from "svelte";
-	import { APP_TITLE, DEFAULT_THEME, SESSION_PROVIDER_KEY, SPOTIFY_PERMISSIONS } from "$lib/constants";
+	import { APP_TITLE, DEFAULT_THEME } from "$lib/constants";
 
-  const helper = new SvelteSpotifyAuthHelper();
-  const auth = new SpotifyAuth(helper, SPOTIFY_PERMISSIONS, {
-    preventiveRefresh: true
-  });
+  export let data;
   
-  const sessionProvider = new SvelteSpotifySessionProvider(auth, helper);
-
-  setContext(SESSION_PROVIDER_KEY, sessionProvider);
-
-  const login = auth.performAuth();
+  const { user, login } = data;
+  
 </script>
 
 {#await login}
   <h1>Loading...</h1>
 {:then}
-  <Header title={APP_TITLE} manager={getUser(sessionProvider)} />
-
+  <Header {user} />
   <slot />
 {/await}
 

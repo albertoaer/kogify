@@ -1,10 +1,11 @@
+import { goto } from '$app/navigation';
 import { PUBLIC_REDIRECT_URL, PUBLIC_SPOTIFY_CLIENT_ID } from '$env/static/public';
 import type { SessionProvider, SessionState } from '$lib/spotify';
 import { AUTH_KEYS, type SpotifyAuthHelper, type AuthKey, type SpotifyAuth } from '$lib/spotify/auth';
-import { BehaviorSubject, Observable, distinctUntilChanged, filter, map } from 'rxjs';
+import { Observable, ReplaySubject, distinctUntilChanged, filter, map } from 'rxjs';
 
 export class SvelteSpotifyAuthHelper implements SpotifyAuthHelper {
-  static readonly subject$ = new BehaviorSubject(localStorage.getItem(AUTH_KEYS.access_token));
+  static readonly subject$ = new ReplaySubject(1);
   static readonly observable$ = (this.subject$ as Observable<string>).pipe(filter(x => !!x), distinctUntilChanged());
 
   getClientId(): string {
@@ -25,8 +26,10 @@ export class SvelteSpotifyAuthHelper implements SpotifyAuthHelper {
   
   setPersistent(key: AuthKey, value: string): void {
     localStorage.setItem(key, value);
-    if (key === AUTH_KEYS.access_token)
+    if (key === AUTH_KEYS.access_token) {
       SvelteSpotifyAuthHelper.subject$.next(value);
+      goto('/');
+    }
   }
 
   getPersistent(key: AuthKey): string | null {

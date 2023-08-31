@@ -54,7 +54,7 @@ export async function beginAuthorization(clientId: string, redirect: string, sco
 
 export function getCodeFromURL(url: string): string | null {
   const urlParams = new URL(url).searchParams;
-  return urlParams.get('code');
+  return urlParams.get(CODE_PARAM_NAME);
 }
 
 export interface AccessData {
@@ -115,6 +115,8 @@ export async function refreshAccessData(clientId: string, refreshToken: string):
 
   return json as AccessData;
 }
+
+export const CODE_PARAM_NAME = 'code';
 
 export const AUTH_KEYS = {
   access_token: 'access_token',

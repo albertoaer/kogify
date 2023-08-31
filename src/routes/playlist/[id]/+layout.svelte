@@ -1,13 +1,10 @@
 <script lang="ts">
   import { Scaffold } from '$lib/components';
-	import type { Playlist } from '$lib/spotify/playlists';
-	import { createContext, currentContext } from './context';
+	import type { Playlist } from '$lib/spotify';
 
   export let data;
 
-  createContext(data.id);
-
-  const { playlist$ } = currentContext();
+  const { playlist$ } = data;
 
   let playlist: Playlist | undefined = undefined;
   $: playlist = $playlist$;

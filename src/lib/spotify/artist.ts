@@ -1,5 +1,5 @@
-import { from, map, switchMap } from "rxjs";
-import { spotifyRequest, type SessionProvider } from "./base";
+import { from, map, startWith, switchMap } from "rxjs";
+import { spotifyRequest, type SessionProvider, type IterableResponse } from "./base";
 
 export interface Artist {
   genres: string[],
@@ -14,7 +14,7 @@ export interface Artist {
   }[],
   popularity: number,
   followers: {
-    total: number
+    total: number // using the top artist is bugged
   }
   type: 'artist'
 }
@@ -49,3 +49,17 @@ export function getSeveralArtists(provider: SessionProvider, ids: string[]) {
     artists$
   }
 }
+
+export function getTopArtists(provider: SessionProvider) {
+  const topArtistData$ = provider.getSession().pipe(
+    switchMap(session => from(spotifyRequest<IterableResponse<Artist>>(session, 'v1/me/top/artists'))),
+    map(x => x.items),
+    startWith([] as Artist[])
+  );
+
+  return  {
+    topArtistData$
+  }
+}
+
+export type UserTopArtists = ReturnType<typeof getTopArtists>;

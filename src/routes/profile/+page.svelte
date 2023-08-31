@@ -1,13 +1,12 @@
 <script lang="ts">
 	import { Panel, Row, Scaffold } from "$lib/components";
   import Button from "$lib/components/button.svelte";
-	import { SESSION_PROVIDER_KEY } from "$lib/constants";
 	import { getUser, type UserProfile } from "$lib/spotify";
-	import type { SvelteSpotifySessionProvider } from "$lib/svelte_spotify_auth";
 	import { first } from "rxjs";
-	import { getContext } from "svelte";
 
-  const provider: SvelteSpotifySessionProvider = getContext(SESSION_PROVIDER_KEY);
+  export let data;
+
+  const { provider } = data;
 
   function logOut() {
     provider.getSession().pipe(first()).subscribe(val => val.killSession());

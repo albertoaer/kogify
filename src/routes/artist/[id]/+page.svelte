@@ -1,25 +1,13 @@
 <script lang="ts">
 	import { Scaffold, DescriptionPanel } from '$lib/components';
-	import { SESSION_PROVIDER_KEY } from '$lib/constants';
-	import { getTopArtists, type TopArtist } from '$lib/spotify';
-	import { getArtist } from '$lib/spotify/artist.js';
-	import type { SvelteSpotifySessionProvider } from '$lib/svelte_spotify_auth';
-	import { map, of, switchMap } from 'rxjs';
-	import { getContext } from 'svelte';
+	import type { Artist } from '$lib/spotify';
 
   export let data;
-  
-  const provider: SvelteSpotifySessionProvider = getContext(SESSION_PROVIDER_KEY);
 
-  const data$ = getTopArtists(provider).topArtistData$.pipe(
-    map((list: TopArtist[]) => list.find(x => x.id === data.id) as TopArtist),
-    switchMap(artist => {
-      if (artist) return of(artist);
-      return getArtist(provider, data.id).artist$;
-    })
-  )
-  let artist: TopArtist | undefined;
-  $: artist = $data$;
+  const { artist$ } = data;
+
+  let artist: Artist | undefined;
+  $: artist = $artist$;
 </script>
 
 {#if artist}

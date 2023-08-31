@@ -1,11 +1,12 @@
 <script lang="ts">
   import { Button, ExpandablePanel, SongList, ChartPanel, DescriptionPanel } from '$lib/components';
-	import type { Playlist, TrackArtist } from '$lib/spotify/playlists';
+	import type { Playlist, TrackArtist } from '$lib/spotify';
 	import type { Stats1D } from '$lib/statistics';
-	import { currentContext } from './context';
 	import { goto } from '$app/navigation';
 
-  const { id, playlist$, stats$, tracks$, inspectData$, playlistGenres$ } = currentContext();
+  export let data;
+
+  const { id, playlist$, stats$, tracks$, inspectData$, playlistGenres$ } = data;
 
   let playlist: Playlist | undefined = undefined;
   $: playlist = $playlist$;
@@ -59,6 +60,7 @@
     appLink={playlist.uri}
     tags={playlistGenres}
   >
+    <Button on:click={inspectAll}>Songs: {playlist.tracks.total}</Button>
     <p>{playlist.description}</p>
   </DescriptionPanel>
 {/if}

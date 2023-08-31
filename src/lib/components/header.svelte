@@ -1,16 +1,15 @@
 <script lang="ts">
+	import { APP_TITLE } from "$lib/constants";
   import type { UserManager } from "$lib/spotify";
 
-  export let manager: UserManager;
+  export let user: UserManager;
 
-  export let title: string;
-
-  const { profilePicture$ } = manager;
+  const { profilePicture$ } = user;
 </script>
 
 <header>
   <ul>
-    <a href="/"><h1 class="breath">{title}</h1></a>
+    <a href="/"><h1 class="breath">{APP_TITLE}</h1></a>
   </ul>
   <ul>
     <li class="mayHide"><a href="/">Home</a></li>

@@ -1,9 +1,11 @@
 <script lang="ts">
 	import { Row, SongList, BackButton, Panel } from "$lib/components";
-	import type { Track } from "$lib/spotify/playlists";
-	import { currentContext, type InspectData } from "../context";
+	import type { Track } from "$lib/spotify";
+	import type { InspectData } from "../+layout";
+  
+  export let data;
 
-  const { tracks$, inspectData$ } = currentContext();
+  const { tracks$, inspectData$ } = data;
   
   let tracks: Track[] = [];
   $: tracks = $tracks$;
