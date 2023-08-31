@@ -1,6 +1,7 @@
-import { Observable, concat, from, of, startWith, switchMap } from "rxjs";
+import { Observable, concat, from, map, of, startWith, switchMap } from "rxjs";
 import { spotifyRequest, type IterableResponse, type SessionProvider } from "./base";
 import type { Playlist } from "./playlists";
+import type { Artist } from "./artist";
 
 export interface TrackAlbum {
   album_type: string,
@@ -53,4 +54,27 @@ export function getTracksOf(provider: SessionProvider, playlist: Playlist) {
   return {
     playlistTracks$
   };
+}
+
+export function getTopTracks(provider: SessionProvider, artist: Artist, market: string) {
+  const topTracks$ = provider.getSession().pipe(
+    switchMap(session => from(spotifyRequest<{ tracks: Track[] }>(session, `v1/artists/${artist.id}/top-tracks`, { params: { market } }))),
+    map(x => x.tracks),
+    startWith([] as Track[])
+  );
+  return {
+    topTracks$
+  };
+}
+
+export function getMyTopTracks(provider: SessionProvider) {
+  const myTopTracks$ = provider.getSession().pipe(
+    switchMap(session => from(spotifyRequest<IterableResponse<Track>>(session, 'v1/me/tracks'))),
+    map(x => x.items),
+    startWith([] as Track[])
+  );
+
+  return {
+    myTopTracks$
+  }
 }

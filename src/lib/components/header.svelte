@@ -4,7 +4,7 @@
 
   export let user: UserManager;
 
-  const { profilePicture$ } = user;
+  const { userData$ } = user;
 </script>
 
 <header>
@@ -16,7 +16,7 @@
     <li><a href="/about">About</a></li>
     <li>
       <a href="/profile">
-        <img src="{$profilePicture$ || '/noImage.png'}" alt="User Profile">
+        <img src="{$userData$?.images.at(-1)?.url || '/noImage.png'}" alt="User Profile">
       </a>
     </li>
   </ul>

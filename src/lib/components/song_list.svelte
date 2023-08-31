@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { AudioPlayerButton, AuthoredItem } from "$lib/components";
-	import type { Track } from "$lib/spotify/playlists";
+	import type { Track } from "$lib/spotify";
 
   export let tracks: Track[];
 </script>

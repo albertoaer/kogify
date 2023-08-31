@@ -20,8 +20,6 @@
 </script>
 
 <Panel title="Songs: {inspectData?.title ?? 'all'}" base={45} bigPanel>
-  <Row slot='title-content' justify='end' grow>
-    <BackButton />
-  </Row>
+  <BackButton slot='title-prepend' />
   <SongList tracks={filteredTracks ?? tracks} />
 </Panel>

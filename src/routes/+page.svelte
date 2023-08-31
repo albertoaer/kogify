@@ -1,18 +1,36 @@
 <script lang="ts">
 	import { Card, ContentCard, Grid, Tags } from "$lib/components";
 	import { isPolicyEnabled } from "$lib/policy";
+	import type { UserProfile } from "$lib/spotify";
 	import type { ComponentType } from "svelte";
 
   export let data;
   
-  const { cardData$ } = data;
+  const { cardData$, user } = data;
 
   const cardPolicy = isPolicyEnabled('card-policy');
   const cardKind: ComponentType = cardPolicy ? ContentCard : Card;
   const cardProps = cardPolicy ? {} : { blur: true, hiddenContent: true };
+
+  const { userData$ } = user;
+  let userData: UserProfile | undefined;
+  $: userData = $userData$;
 </script>
 
 <Grid>
+  {#if userData}
+    <svelte:component
+        this={cardKind}
+        src={userData.images.at(-1)?.url}
+        name={userData.display_name}
+        href="/profile"
+        {...cardProps}
+    >
+      <div class="card-content">
+        <h1>{userData.display_name}</h1>
+      </div>
+    </svelte:component>
+  {/if}
   {#each $cardData$ as item}
     <svelte:component
       this={cardKind}

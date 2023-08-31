@@ -61,5 +61,3 @@ export function getTopArtists(provider: SessionProvider) {
     topArtistData$
   }
 }
-
-export type UserTopArtists = ReturnType<typeof getTopArtists>;

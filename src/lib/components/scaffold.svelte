@@ -1,14 +1,16 @@
 <script lang="ts">
 	import { Container, Card } from ".";
+  import { blur } from "svelte/transition";
+  import { cubicOut } from "svelte/easing";
 
   export let image: string | undefined = undefined;
   export let name: string;
 </script>
 
 <Container>
-  <div id="main">
+  <div id="main" in:blur={{duration: 250, easing: cubicOut}}>
     {#if image}
-    <Card src={image} {name} rounded size="20em" shadow="4px 2px 10px 0px black" />
+      <Card src={image} {name} rounded size="20em" shadow="-4px 2px 10px 0px black" />
     {/if}
     <slot />
   </div>
@@ -17,7 +19,7 @@
 <style>
   #main {
     display: flex;
-    flex-direction: row;
+    flex-direction: row-reverse;
     align-items: stretch;
     justify-content: center;
     width: max(70%, 450px);

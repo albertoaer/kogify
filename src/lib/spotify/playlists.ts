@@ -28,5 +28,3 @@ export function getMyPlaylists(provider: SessionProvider) {
     myPlaylists$
   }
 }
-
-export type MyPlaylistsManager = ReturnType<typeof getMyPlaylists>;

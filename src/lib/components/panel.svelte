@@ -1,6 +1,5 @@
 <script lang="ts">
   export let title: string = '';
-  export let centerTitle: boolean = false;
   export let base: number = 50;
   export let grow: boolean = true;
   export let bigPanel: boolean = false;
@@ -9,7 +8,8 @@
 <div id="panel" style="--var-base: {base}%;" class:big-panel={bigPanel} class:grow>
   {#if title}
     <div id="title">
-      <h1 class:centerTitle>{title}</h1>
+      <slot name="title-prepend" />
+      <h1>{title}</h1>
       <slot name="title-content" />
     </div>
   {/if}

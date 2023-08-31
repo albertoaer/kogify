@@ -36,13 +36,13 @@ export async function spotifyRequest<K>(
 }
 
 export interface SessionState {
-  accessToken: string,
-  fixAuth(): Promise<void>
+  accessToken: string;
+  fixAuth(): Promise<void>;
   killSession(): void;
 }
 
 export interface SessionProvider {
-  getSession(): Observable<SessionState>
+  getSession(): Observable<SessionState>;
 }
 
 export interface Image {

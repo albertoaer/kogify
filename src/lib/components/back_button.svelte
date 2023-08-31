@@ -22,8 +22,8 @@
   }
 
   div {
-    width: 3em;
-    height: 1.2em;
+    width: 1.5em;
+    height: 1em;
     display: flex;
     align-items: center;
     justify-content: center;

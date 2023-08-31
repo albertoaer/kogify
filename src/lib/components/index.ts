@@ -18,3 +18,4 @@ export { default as ChartPanel } from './chart_panel.svelte';
 export { default as SongList } from './song_list.svelte';
 export { default as DescriptionPanel } from './description_panel.svelte';
 export { default as BackButton } from './back_button.svelte';
+export { default as Separator } from './separator.svelte';

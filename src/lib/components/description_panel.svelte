@@ -10,17 +10,15 @@
   export let pageLink: string | undefined = undefined;
 </script>
 
-<Panel {title} centerTitle>
-  <svelte:fragment slot='title-content'>
+<Panel {title}>
+  <svelte:fragment slot='title-prepend'>
     {#if !hideBackButton}
-      <Row justify="end" grow>
-        <BackButton />
-      </Row>
+      <BackButton />
     {/if}
   </svelte:fragment>
   <div id="content">
     {#if tags}
-      <Tags {tags} />
+      <Row justify='center' margin fullWidth><Tags {tags} /></Row>
     {/if}
     <slot />
     {#if pageLink || appLink}
