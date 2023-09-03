@@ -1,13 +1,10 @@
 <script lang="ts" generics="T">
-	import { Panel, Chart } from "$lib/components";
+	import { Chart } from "$lib/components";
 	import type { Stats1D } from "$lib/statistics";
 	import type { ChartOptions } from "chart.js";
 	import { type ComponentProps, createEventDispatcher } from "svelte";
 
-  export let title: string | undefined = undefined;
   export let type: ComponentProps<Chart>['type'];
-  export let flex: ComponentProps<Panel>['flex'] = "0 1 40em";
-  export let rowGap: ComponentProps<Panel>['rowGap'] = "0em";
   export let data: Stats1D<T>;
   export let label: string;
   export let overrideScales: boolean = false;
@@ -65,7 +62,4 @@
   }
 </script>
 
-<Panel {title} {flex} {rowGap}>
-  <Chart {type} {options} data={data.getChartData(label)} />
-  <slot />
-</Panel>
+<Chart {type} {options} data={data.getChartData(label)} />

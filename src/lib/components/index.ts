@@ -18,3 +18,4 @@ export { default as BackButton } from './back_button.svelte';
 export { default as Separator } from './separator.svelte';
 export { default as PanelRow } from './panel_row.svelte';
 export { default as Break } from './break.svelte';
+export { default as PreparedChart } from './prepared_chart.svelte';

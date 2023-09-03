@@ -21,9 +21,18 @@ export const load: LayoutLoad = async ({ params, parent }) => {
   );
 
   const stats$ = tracks$.pipe(
-    map(
-      x => Stats1D.buildFrom(x.flatMap(x => x.artists.map(x => [x.name, x] as [string, TrackArtist])))
-    ),
+    map(x => Stats1D.buildFrom(x.flatMap(x => x.artists.map(x => [x.name, x] as [string, TrackArtist])))),
+    shareReplay(1)
+  );
+
+  const trackStats$ = tracks$.pipe(
+    map(x => new Stats1D(x.map(x => {
+      return {
+        label: x.name,
+        value: x.popularity,
+        ref: x
+      }
+    }))),
     shareReplay(1)
   );
   
@@ -42,8 +51,9 @@ export const load: LayoutLoad = async ({ params, parent }) => {
   return {
     id,
     playlist$,
-    stats$,
     tracks$,
+    stats$,
+    trackStats$,
     playlistGenres$
   }
 }

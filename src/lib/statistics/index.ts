@@ -8,7 +8,10 @@ export interface StatValue1D<T> {
 }
 
 export class Stats1D<T> {
-  private constructor(private readonly data: StatValue1D<T>[] = []) { }
+
+  public constructor(private readonly data: StatValue1D<T>[] = []) {
+    data.sort((a, b) => b.value - a.value);
+  }
 
   static buildFrom<T>(inputs: [string, T][]): Stats1D<T> {
     const accumulated = new Map<string, StatValue1D<T>>();
@@ -17,9 +20,7 @@ export class Stats1D<T> {
       if (acc) acc.value += 1;
       else accumulated.set(label, { label, ref, value: 1 });
     }
-    const result = [...accumulated.values()];
-    result.sort((a, b) => b.value - a.value);
-    return new Stats1D<T>(result);
+    return new Stats1D<T>([...accumulated.values()]);
   }
 
   get count(): number {
@@ -98,13 +99,18 @@ export class Stats1D<T> {
 
   getChartData(label: string): ChartData {
     const color = getColor('effect-A');
+    const colorB = getColor('text-A');
     return {
       labels: this.data.map(x => x.label),
       datasets: [
         {
           label: label,
           data: this.data.map(x => x.value),
-          backgroundColor: color
+          backgroundColor: color,
+          borderColor: colorB,
+          pointBackgroundColor: color,
+          pointBorderColor: color,
+          pointRadius: 8
         }
       ]
     };

@@ -10,7 +10,7 @@
   export let data;
 
   const { tracks$ } = data;
-  
+
   let tracks: Track[] = [];
   $: tracks = $tracks$;
 
@@ -20,6 +20,6 @@
   }
 </script>
 
-<Panel>
+<Panel title='Showing {filteredTracks?.length || tracks.length} tracks'>
   <SongList tracks={filteredTracks ?? tracks} />
 </Panel>

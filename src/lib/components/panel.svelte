@@ -2,9 +2,10 @@
   export let title: string = '';
   export let flex: `${number} ${number} ${number}${'px' | 'em' | '%'}` | `${number} ${number} auto` = '1 1 25em';
   export let shadow: `${number}px ${number}px ${number}px ${number}px ${string}` | undefined = undefined;
+  export let rowGap: `${number}${'px' | 'em'}` = '2em'
 </script>
 
-<div id="panel" class:shadow style="--var-flex: {flex}; --var-shadow: {shadow}">
+<div id="panel" class:shadow style="--var-flex: {flex}; --var-shadow: {shadow}; --var-row-gap: {rowGap}">
   {#if title}
     <div id="title">
       <slot name="title-prepend" />
@@ -24,12 +25,12 @@
     justify-content: start;
     color: var(--color-text-A);
     border-radius: 5px;
-    padding: 1.5em;
+    padding: 1em;
     margin: 0;
     overflow-y: auto;
     overflow-x: hidden;
     position: relative;
-    row-gap: 2em;
+    row-gap: var(--var-row-gap);
   }
 
   #panel.shadow {
@@ -41,7 +42,7 @@
     flex-direction: row;
     align-items: center;
     gap: 1em;
-    margin-bottom: 2em;
+    margin-bottom: 1em;
   }
 
   #title > h1 {

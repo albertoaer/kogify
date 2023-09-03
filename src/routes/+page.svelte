@@ -36,7 +36,7 @@
       this={cardKind}
       src={item.images[0].url}
       name={item.name}
-      href="/{item.type}/{item.id}"
+      href="/{item.type}s/{item.id}"
       {...cardProps}
     >
       <div class="card-content">

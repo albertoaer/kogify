@@ -7,7 +7,7 @@
 
 <ul>
   {#each tracks as track, index}
-    <AuthoredItem {index} title={track.name} authors={track.artists.map(x => [x.name, `/artist/${x.id}`])}>
+    <AuthoredItem {index} title={track.name} authors={track.artists.map(x => [x.name, `/artists/${x.id}`])}>
       <p>{new Date(track.duration_ms).toISOString().slice(11, -1)}</p>
       {#if track.preview_url}
         <AudioPlayerButton src={track.preview_url} enabledText="playing" disabledText="preview" />

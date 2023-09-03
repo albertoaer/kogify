@@ -10,7 +10,7 @@
     {#if typeof genre === 'string'}
       <li>{genre}</li>
     {:else}
-      <Link href={genre[1]}>{genre[0]}</Link>
+      <li><Link href={genre[1]} noEnhancement>{genre[0]}</Link></li>
     {/if}
   {/each}
 </ul>

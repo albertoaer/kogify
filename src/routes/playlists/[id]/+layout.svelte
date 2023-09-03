@@ -11,7 +11,7 @@
 </script>
 
 {#if playlist}
-  <Scaffold image={playlist.images[0].url} title={playlist.name} href="/playlist/{id}">
+  <Scaffold image={playlist.images[0].url} title={playlist.name} href="/playlists/{id}">
     <slot />
   </Scaffold>
 {/if}
