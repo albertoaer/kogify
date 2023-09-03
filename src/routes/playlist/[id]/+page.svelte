@@ -1,12 +1,13 @@
 <script lang="ts">
-  import { Button, ExpandablePanel, SongList, ChartPanel, DescriptionPanel } from '$lib/components';
+  import { Button, ChartPanel, Link, Panel, Row, Tags, Separator, Break } from '$lib/components';
 	import type { Playlist, TrackArtist } from '$lib/spotify';
 	import type { Stats1D } from '$lib/statistics';
 	import { goto } from '$app/navigation';
+	import { AppLinkLabel, PageLinkLabel } from '$lib/constants';
 
   export let data;
 
-  const { id, playlist$, stats$, tracks$, inspectData$, playlistGenres$ } = data;
+  const { id, playlist$, stats$, playlistGenres$ } = data;
 
   let playlist: Playlist | undefined = undefined;
   $: playlist = $playlist$;
@@ -31,42 +32,51 @@
 
   const label = 'Artists appearance';
 
-  function handleInspect(title: string, items: TrackArtist[]) {
-    inspectData$.set({
-      title,
-      ids: items.map(x => x.id)
-    });
-    goto(`/playlist/${id}/inspect`);
+  function handleInspect(items: TrackArtist[]) {
+    goto(`/playlist/${id}/filter?artists=${items.map(x => x.id).join(',')}`);
   }
 
   function inspectAll() {
-    inspectData$.set(undefined);
-    goto(`/playlist/${id}/inspect`);
+    goto(`/playlist/${id}/filter`);
   }
 
   function inspectOne(event: CustomEvent<{ title: string, item: TrackArtist }>) {
-    handleInspect(event.detail.title, [event.detail.item])
+    handleInspect([event.detail.item])
   }
 
   function inspectMany(event: CustomEvent<{ title: string, item: TrackArtist[] }>) {
-    handleInspect(event.detail.title, event.detail.item)
+    handleInspect(event.detail.item)
   }
 </script>
 
 {#if playlist}
-  <DescriptionPanel
-    title={playlist.name}
-    pageLink={playlist.external_urls.spotify}
-    appLink={playlist.uri}
-    tags={playlistGenres}
-  >
-    <Button on:click={inspectAll}>Songs: {playlist.tracks.total}</Button>
-    <p>{playlist.description}</p>
-  </DescriptionPanel>
+  <Panel flex='1 1 18em'>
+    <Row justify='start' gap='1em'><h3>Genres</h3><Button>See them calculated</Button></Row>
+    <Tags tags={playlistGenres}/>
+    <Separator />
+    <Link href={playlist.external_urls.spotify} blank>{PageLinkLabel}</Link>
+    <Link href={playlist.uri}>{AppLinkLabel}</Link>
+    <Button on:click={inspectAll}>Song count: {playlist.tracks.total}</Button>
+  </Panel>
+  <Panel flex='2 1 18em'>
+    {#if stats}
+      <div>
+        <Row justify='start' gap='1em'><h3>Artists</h3><Button>See them ranked</Button></Row>
+        <Tags tags={stats.top(15).collectMap(x => x.label).concat('and more...')} />
+      </div>
+    {/if}
+    {#if playlist.description}
+      <Separator />
+      <div>
+        <h3>About</h3>
+        <Row justify='start'>{playlist.description}</Row>
+      </div>
+    {/if}
+  </Panel>
 {/if}
 {#if stats}
+  <Break />
   <ChartPanel
-    title="Top 10"
     type='bar'
     data={stats.top(10)}
     {label}
@@ -75,7 +85,6 @@
   />
   {#if !Number.isNaN(avgSongs) && underAvgList.count}
     <ChartPanel
-      title="Less than average songs ({avgSongs} song{avgSongs > 1 ? 's' :''}):"
       type='pie'
       data={underAvgList}
       {label}
@@ -83,15 +92,10 @@
     />
   {/if}
   <ChartPanel
-    title="By number of songs"
     type='bar'
     data={stats.group('artists')}
     {label}
-    on:click={x => handleInspect(x.detail.title, x.detail.item)}
+    on:click={inspectMany}
     overrideScales
   />
 {/if}
-<ExpandablePanel title="Song list" base={100} bigPanel>
-  <Button on:click={inspectAll} slot="title-content">All songs</Button>
-  <SongList tracks={$tracks$} />
-</ExpandablePanel>

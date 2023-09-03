@@ -32,6 +32,9 @@
   :global(body) {
     margin: 0;
     padding: 0;
-    background-color: var(--color-light-B);
+    background: var(--color-background-A);
+    background: linear-gradient(220deg, var(--color-background-B) 0%, var(--color-background-A) 40%, var(--color-background-A) 80%, var(--color-background-B) 100%);
+    background-attachment: fixed;
+    color: var(--color-text-A);
   }
 </style>

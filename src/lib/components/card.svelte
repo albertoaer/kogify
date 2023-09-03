@@ -37,11 +37,12 @@
     background-position: center;
     position: relative;
     text-decoration: none;
-    background-color: var(--color-strongest);
+    background-color: var(--color-background-A);
     overflow: hidden;
     transition: 500ms all ease;
     width: 100%;
     height: 100%;
+    margin: 1.5em;
   }
 
   #item.size {
@@ -65,7 +66,7 @@
     display: flex;
     justify-content: center;
     width: 100%;
-    color: var(--color-light-A);
+    color: var(--color-text-A);
     text-shadow: 0px 0px 5px black;
     position: relative;
     overflow: hidden;
@@ -92,7 +93,7 @@
   }
   
   #item:not(.maximized):hover {
-    background-color: var(--color-light-B);
+    background-color: var(--color-text-B);
     transition: 300ms all ease;
   }
 

@@ -1,24 +1,19 @@
 <script lang="ts">
-  export let href: string;
+  export let href: string | undefined;
   export let blank: boolean = false;
-  export let alt: boolean = false;
 </script>
 
-<a {href} target={blank ? "_blank" : undefined} class:alt><slot /></a>
+<a {href} class:href target={blank ? "_blank" : undefined}><slot /></a>
 
 <style>
   a {
-    color: var(--color-light-A);
-    text-decoration: underline;
-    --color-underline: var(--color-strong-B);
+    color: var(--color-text-A);
     font-size: 1.2em;
+    text-align: center;
+    text-decoration: none;
   }
-  
-  a.alt {
-    --color-underline: var(--color-strong-A);
-  }
-  
-  a:hover {
-    text-decoration-color: var(--color-underline);
+
+  a.href:hover {
+    text-decoration: underline;
   }
 </style>

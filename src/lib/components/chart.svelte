@@ -1,11 +1,18 @@
 <script lang="ts" context="module">
-  import { Chart, registerables } from 'chart.js';
-  
+	import { getColor } from '$lib/colors';
+	import { Chart, registerables } from 'chart.js';
+
   Chart.register(...registerables);
 </script>
 
 <script lang="ts">
   import type { ChartItem, ChartData, ChartType, ChartOptions, Plugin } from 'chart.js';
+	import { onMount } from 'svelte';
+
+  onMount(() => {
+    Chart.defaults.color = getColor('text-B');
+    Chart.defaults.font.size = 22;
+  });
 
   export let type: ChartType;
   export let data: ChartData;

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Card, ContentCard, Grid, Tags } from "$lib/components";
+	import { Card, BasicCard, Grid, Tags } from "$lib/components";
 	import { isPolicyEnabled } from "$lib/policy";
 	import type { UserProfile } from "$lib/spotify";
 	import type { ComponentType } from "svelte";
@@ -9,7 +9,7 @@
   const { cardData$, user } = data;
 
   const cardPolicy = isPolicyEnabled('card-policy');
-  const cardKind: ComponentType = cardPolicy ? ContentCard : Card;
+  const cardKind: ComponentType = cardPolicy ? BasicCard : Card;
   const cardProps = cardPolicy ? {} : { blur: true, hiddenContent: true };
 
   const { userData$ } = user;

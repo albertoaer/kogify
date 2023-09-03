@@ -19,8 +19,7 @@
     background-position: center;
     position: relative;
     text-decoration: none;
-    background-color: var(--color-strongest);
-    color: var(--color-light-A);
+    color: var(--color-text-A);
     overflow: hidden;
     transition: 500ms all ease;
     width: 100%;
@@ -33,16 +32,12 @@
     object-position: center;
     width: 20em;
     height: 20em;
-    box-shadow: 0 10px 20px 0px var(--color-light-B);
+    box-shadow: 0 10px 20px 0px var(--color-text-B);
     transition: 300ms all ease;
-  }
-  
-  #item:hover {
-    box-shadow: inset 0 -0.5em 0px 0px var(--color-light-A);
   }
 
   #item:hover img {
-    box-shadow: 0 15px 20px 5px var(--color-strong-B);
+    box-shadow: 0 15px 20px 5px var(--color-effect-A);
     transition: 500ms all ease;
   }
 </style>

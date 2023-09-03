@@ -1,11 +1,13 @@
 <script lang="ts" generics="T">
+	import { getColor } from "$lib/colors";
 	import { Panel, Chart } from "$lib/components";
 	import type { Stats1D } from "$lib/statistics";
 	import type { ChartOptions } from "chart.js";
 	import { type ComponentProps, createEventDispatcher } from "svelte";
 
-  export let title: string;
+  export let title: string | undefined = undefined;
   export let type: ComponentProps<Chart>['type'];
+  export let flex: ComponentProps<Panel>['flex'] = "0 1 40em";
   export let data: Stats1D<T>;
   export let label: string;
   export let overrideScales: boolean = false;
@@ -51,11 +53,18 @@
         if (item)
           dispatch('click', { item: item.ref, title: item.label });
       }
+    },
+    plugins: {
+      legend: {
+        labels: {
+          color: getColor('text-B')
+        }
+      }
     }
   }
 </script>
 
-<Panel {title} base={45} bigPanel>
-  <Chart {type} {options} data={data.getChartData(label)}>
-  </Chart>
+<Panel {title} {flex}>
+  <Chart {type} {options} data={data.getChartData(label)} />
+  <slot />
 </Panel>

@@ -2,13 +2,7 @@ import { getTracksOf, getMyPlaylists, type Playlist, type Track, type TrackArtis
 import { filter, map, shareReplay, startWith, switchMap } from 'rxjs';
 import { Stats1D } from '$lib/statistics';
 import { getSeveralArtists } from '$lib/spotify/artist.js';
-import { writable } from 'svelte/store';
 import type { LayoutLoad } from './$types';
-
-export interface InspectData {
-  title: string,
-  ids: string[]
-}
 
 export const load: LayoutLoad = async ({ params, parent }) => {
   const { id } = params;
@@ -50,7 +44,6 @@ export const load: LayoutLoad = async ({ params, parent }) => {
     playlist$,
     stats$,
     tracks$,
-    playlistGenres$,
-    inspectData$: writable<InspectData | undefined>(undefined)
+    playlistGenres$
   }
 }

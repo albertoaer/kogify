@@ -1,3 +1,4 @@
+import { getColor } from "$lib/colors";
 import type { ChartData } from "chart.js";
 
 export interface StatValue1D<T> {
@@ -31,6 +32,10 @@ export class Stats1D<T> {
 
   collect(): T[] {
     return this.data.map(x => x.ref);
+  }
+
+  collectMap<K>(transform: (value: StatValue1D<T>) => K): K[] {
+    return this.data.map(transform);
   }
 
   avg(): number {
@@ -92,12 +97,14 @@ export class Stats1D<T> {
   }
 
   getChartData(label: string): ChartData {
+    const color = getColor('effect-A');
     return {
       labels: this.data.map(x => x.label),
       datasets: [
         {
           label: label,
           data: this.data.map(x => x.value),
+          backgroundColor: color
         }
       ]
     };

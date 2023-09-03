@@ -1,11 +1,10 @@
 <script lang="ts">
   export let title: string = '';
-  export let base: number = 50;
-  export let grow: boolean = true;
-  export let bigPanel: boolean = false;
+  export let flex: `${number} ${number} ${number}${'px' | 'em' | '%'}` | `${number} ${number} auto` = '1 1 25em';
+  export let shadow: `${number}px ${number}px ${number}px ${number}px ${string}` | undefined = undefined;
 </script>
 
-<div id="panel" style="--var-base: {base}%;" class:big-panel={bigPanel} class:grow>
+<div id="panel" class:shadow style="--var-flex: {flex}; --var-shadow: {shadow}">
   {#if title}
     <div id="title">
       <slot name="title-prepend" />
@@ -19,21 +18,22 @@
 <style>
   #panel {
     display: flex;
+    flex: var(--var-flex);
     flex-direction: column;
-    color: var(--color-light-A);
-    background-color: var(--color-strongest);
+    align-items: stretch;
+    justify-content: start;
+    color: var(--color-text-A);
     border-radius: 5px;
-    padding: 1em 1em 1.5em 1.5em;
+    padding: 1.5em;
     margin: 0;
     overflow-y: auto;
     overflow-x: hidden;
-    flex-grow: 0;
-    flex-basis: var(--var-base);
     position: relative;
+    row-gap: 2em;
   }
 
-  #panel.grow {
-    flex-grow: 1;
+  #panel.shadow {
+    box-shadow: var(--var-shadow);
   }
 
   #title {
@@ -46,17 +46,7 @@
 
   #title > h1 {
     margin: 0;
-  }
-
-  @media (max-width: 500px) {
-    #panel {
-      border-radius: 0px;
-    }
-  }
-  
-  @media (max-width: 1200px) {
-    #panel.big-panel {
-      flex-basis: 100%;
-    }
+    text-align: center;
+    width: 100%;
   }
 </style>

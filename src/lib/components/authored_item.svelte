@@ -57,7 +57,7 @@
     margin: 0;
     padding: 0;
     margin-top: 0.2em;
-    color: var(--color-light-B);
+    color: var(--color-text-B);
     justify-content: left;
   }
 </style>

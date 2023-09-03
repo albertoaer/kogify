@@ -1,5 +1,7 @@
 <script lang="ts">
-	import { Scaffold, DescriptionPanel, Panel, SongList } from '$lib/components';
+	import { Scaffold, Panel, SongList, Tags, Link, Row } from '$lib/components';
+	import Separator from '$lib/components/separator.svelte';
+	import { AppLinkLabel, PageLinkLabel } from '$lib/constants';
 	import type { Artist, Track } from '$lib/spotify';
 
   export let data;
@@ -14,17 +16,19 @@
 </script>
 
 {#if artist}
-  <Scaffold name={artist.name} image={artist.images[0].url}>
-    <DescriptionPanel
-      title={artist.name}
-      tags={artist.genres}
-      pageLink={artist.external_urls.spotify}
-      appLink={artist.uri}
-    >
-      <h2>Popularity: {artist.popularity}</h2>
-    </DescriptionPanel>
+  <Scaffold title={artist.name} image={artist.images[0].url}>
+    <Panel flex="0 0 40em">
+      <h3>Genres</h3>
+      <Tags tags={artist.genres} />
+      <Separator />
+      <h3 style="text-align: center;">Popularity: {artist.popularity}%</h3>
+      <Row justify='space-between' wrap>
+        <Link href={artist.external_urls.spotify} blank>{PageLinkLabel}</Link>
+        <Link href={artist.uri}>{AppLinkLabel}</Link>
+      </Row>
+    </Panel>
     {#if topTracks}
-      <Panel title="Top tracks">
+      <Panel title="Top tracks" flex="1 0 100%">
         <SongList tracks={topTracks} />
       </Panel>
     {/if}

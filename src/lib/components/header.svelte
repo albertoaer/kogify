@@ -5,9 +5,11 @@
   export let user: UserManager;
 
   const { userData$ } = user;
+
+  let y = 0;
 </script>
 
-<header>
+<header class:background={y > 0}>
   <ul>
     <a href="/"><h1 class="breath">{APP_TITLE}</h1></a>
   </ul>
@@ -22,6 +24,8 @@
   </ul>
 </header>
 
+<svelte:window bind:scrollY={y} />
+
 <style>
   header {
     display: flex;
@@ -29,14 +33,22 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    background-color: var(--color-strongest);
-    color: var(--color-light-A);
+    color: var(--color-text-A);
     margin: 0;
     font-size: 1.2em;
     height: 3em;
     position: sticky;
     top: 0;
     z-index: 10;
+    transition: background 300ms ease-out;
+    --color-hover: var(--color-background-A);
+  }
+  
+  header.background {
+    background: var(--color-background-A);
+    background: linear-gradient(0deg, transparent 0%, var(--color-background-A) 15%); ;
+    transition: background 200ms ease-out;
+    --color-hover: var(--color-background-B);
   }
 
   h1, ul {
@@ -63,8 +75,7 @@
   }
 
   li:hover a {
-    background-color: var(--color-strong-B);
-    transform: translateY(10px);
+    background-color: var(--color-hover);
     transition: 300ms all ease;
   }
   
@@ -76,7 +87,7 @@
     text-decoration: none;
     height: 100%;
     padding: 0 1em;
-    transition: 500ms all ease;
+    transition: 200ms all ease;
   }
 
   img {

@@ -4,14 +4,14 @@
 
   export let data;
 
-  const { playlist$ } = data;
+  const { playlist$, id } = data;
 
   let playlist: Playlist | undefined = undefined;
   $: playlist = $playlist$;
 </script>
 
 {#if playlist}
-  <Scaffold image={playlist.images[0].url} name={playlist.name}>
+  <Scaffold image={playlist.images[0].url} title={playlist.name} href="/playlist/{id}">
     <slot />
   </Scaffold>
 {/if}

@@ -2,7 +2,7 @@
 
 <style>
   hr {
-    color: var(--color-light-A);
+    color: var(--color-text-A);
     margin: 0;
   }
 </style>

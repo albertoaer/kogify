@@ -18,8 +18,8 @@
 </script>
 
 {#if userData}
-  <Scaffold name={userData.display_name ?? ''} image={userData.images.at(-1)?.url}>
-    <Panel title="Profile" base={50}>
+  <Scaffold title={userData.display_name ?? ''} image={userData.images.at(-1)?.url}>
+    <Panel title="Profile">
       <BackButton slot='title-prepend' />
       {#if userData.display_name}
         <Row justify='center'>

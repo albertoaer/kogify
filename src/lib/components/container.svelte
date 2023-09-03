@@ -10,7 +10,7 @@
     flex-direction: column;
     max-width: 100%;
     max-height: 100%;
-    margin: 2em 1em;
+    margin: 0.5em;
   }
 
   @media (max-width: 500px) {
