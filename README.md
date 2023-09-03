@@ -1,16 +1,14 @@
 # Kogify
 
-Kogify is a web application that aims to provide statistics from Spotify playlists through its official API.
-
-Kogify is at the moment only planned to work with Playlist of *Tracks*, by default *Episodes* will be ignored.
+Kogify is a web application that aims to provide statistics from Spotify playlists through its official API. At the moment is only planned to work with Playlist of *Tracks*, by default *Episodes* will be ignored. Kogify is developed using [SvelteKit](https://kit.svelte.dev/).
 
 ## Features
 
 - Retrieve the user's top artists
 - Retrieve the personal and followed playlists of the user
-- Provide playlist description and calculated genres (estimated with the genres extracted from the artists)
+- Provide playlist description, calculated genres (estimated with the genres extracted from the artists) and average track popularity
 - Show statistics of several aspects calculated by each artists' song count
-- Show artist basic information
+- Show artist basic information, including: picture, top tracks, popularity and genres
 
 # Self-host Kogify
 
