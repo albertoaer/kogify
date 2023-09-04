@@ -33,7 +33,7 @@
     margin: 0;
     padding: 0;
     background: var(--color-background-A);
-    background: linear-gradient(220deg, var(--color-background-B) 0%, var(--color-background-A) 40%, var(--color-background-A) 80%, var(--color-background-B) 100%);
+    background: linear-gradient(220deg, var(--color-background-A) 10%, var(--color-background-B) 30%, var(--color-background-A) 90%);
     background-attachment: fixed;
     color: var(--color-text-A);
   }

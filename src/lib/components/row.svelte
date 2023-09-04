@@ -1,9 +1,11 @@
 <script lang="ts">
-  export let justify: 'start' | 'center' | 'end' | 'space-around' | 'space-evenly' | 'space-between';
+	import type { Unit, Justify } from "./model";
+
+  export let justify: Justify;
   export let wrap: boolean = false;
   export let grow: boolean = false;
   export let fullWidth: boolean = false;
-  export let gap: `${number}${'em' | 'px'}` = '0px';
+  export let gap: `${number}${Unit}` = '0px';
 </script>
 
 <div class:wrap class:grow class:fullWidth style="--var-justify: {justify}; --var-gap: {gap}">

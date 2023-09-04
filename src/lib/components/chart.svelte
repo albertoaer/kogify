@@ -7,12 +7,6 @@
 
 <script lang="ts">
   import type { ChartItem, ChartData, ChartType, ChartOptions, Plugin } from 'chart.js';
-	import { onMount } from 'svelte';
-
-  onMount(() => {
-    Chart.defaults.color = getColor('text-B');
-    Chart.defaults.font.size = 22;
-  });
 
   export let type: ChartType;
   export let data: ChartData;
@@ -22,6 +16,9 @@
   let chart: Chart | undefined;
 
   function createChart(item: ChartItem) {
+    Chart.defaults.color = getColor('text-B');
+    Chart.defaults.font.size = 18;
+
     chart = new Chart(item, { type, data, options, plugins });
     
     return {

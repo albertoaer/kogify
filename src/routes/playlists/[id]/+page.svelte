@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { Button, Link, Panel, Row, Tags, Separator, SongList } from '$lib/components';
+  import { Button, Link, Row, Tags, DecorationPanel, SongList } from '$lib/components';
+  import { Panel, Picture } from '$lib/components/scaffold';
 	import type { Playlist, Track, TrackArtist } from '$lib/spotify';
 	import type { Stats1D } from '$lib/statistics';
 	import { AppLinkLabel, PageLinkLabel } from '$lib/constants';
@@ -37,34 +38,39 @@
 </script>
 
 {#if playlist}
-  <Panel flex='1 1 18em'>
-    <Row justify='start' gap='1em'><h3>Genres</h3><Button on:click={_ => goto(`/playlists/${id}/genres`)}>See them calculated</Button></Row>
-    <Tags tags={playlistGenres}/>
-    <Separator />
-    <Link href={playlist.external_urls.spotify} blank>{PageLinkLabel}</Link>
-    <Link href={playlist.uri}>{AppLinkLabel}</Link>
-    <Button on:click={_ => goto(`/playlists/${id}/filter`)}>Song count: {playlist.tracks.total}</Button>
-  </Panel>
-  <Panel flex='2 1 18em'>
+  <Picture flex='0 1 auto'>
+    <Row justify='space-around' fullWidth>
+      <Link href={playlist.external_urls.spotify} blank>{PageLinkLabel}</Link>
+      <Link href={playlist.uri}>{AppLinkLabel}</Link>
+    </Row>
+  </Picture>
+  <Panel flex='0 1 50em' justify='stretch' rowGap='0.6em'>
+    {#if playlist.description}
+    <div>
+      <h3>About</h3>
+      <Row justify='start'>{playlist.description}</Row>
+    </div>
+    {/if}
     {#if stats}
       <div>
-        <Row justify='start' gap='1em'><h3>Artists</h3><Button on:click={_ => goto(`/playlists/${id}/artists`)}>Artist ranking</Button></Row>
+        <Row justify='start' gap='1em'><h3>Artists</h3><Button on:click={_ => goto(`/playlists/${id}/artists`)}>Artists ranking</Button></Row>
         <Tags tags={genres} />
       </div>
     {/if}
-    <Separator />
-    {#if playlist.description}
-      <div>
-        <h3>About</h3>
-        <Row justify='start'>{playlist.description}</Row>
-      </div>
-    {/if}
-    {#if trackStats}
-      <div>
-        <Row justify='start' gap='1em'><h3>Popularity</h3><Button on:click={_ => goto(`/playlists/${id}/popularity`)}>Popularity ranking</Button></Row>
-        <Row justify='start'>Average track popularity: {trackStats.avg()}%</Row>  
-      </div>
-    {/if}
+    <Row justify='start' gap='1em'><h3>Genres</h3><Button on:click={_ => goto(`/playlists/${id}/genres`)}>See them calculated</Button></Row>
+    <Tags tags={playlistGenres}/>
+    <Row justify='space-between' wrap gap='2em'>
+      {#if trackStats}
+        <div>
+          <Row justify='start' gap='1em'><h3>Popularity</h3><Button on:click={_ => goto(`/playlists/${id}/popularity`)}>Popularity ranking</Button></Row>
+          The average track popularity is <b>{trackStats.avg()}%</b>
+        </div>
+      {/if}
+      <DecorationPanel>
+        <h3>Songs</h3>
+        <p>This playlist has <b>{playlist.tracks.total}</b> songs</p>
+      </DecorationPanel>
+    </Row>
   </Panel>
   {#if trackStats}
     <Panel title='Most popular tracks' flex="1 0 100%">

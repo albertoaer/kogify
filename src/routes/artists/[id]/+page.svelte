@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { Scaffold, Panel, SongList, Tags, Link, Row } from '$lib/components';
+	import { SongList, Tags, Link, Row } from '$lib/components';
+	import { Scaffold, Picture, Panel } from '$lib/components/scaffold';
 	import Separator from '$lib/components/separator.svelte';
 	import { AppLinkLabel, PageLinkLabel } from '$lib/constants';
 	import type { Artist, Track } from '$lib/spotify';
@@ -16,16 +17,18 @@
 </script>
 
 {#if artist}
-  <Scaffold title={artist.name} image={artist.images[0].url}>
-    <Panel flex="0 0 40em">
+  <Scaffold title={artist.name} image={artist.images[0].url} justify='center'>
+    <Picture flex='0 1 auto'>
+      <Row justify='space-around' fullWidth>
+        <Link href={artist.external_urls.spotify} blank>{PageLinkLabel}</Link>
+        <Link href={artist.uri}>{AppLinkLabel}</Link>
+      </Row>
+    </Picture>
+    <Panel flex="0 1 auto">
       <h3>Genres</h3>
       <Tags tags={artist.genres} />
       <Separator />
       <h3 style="text-align: center;">Popularity: {artist.popularity}%</h3>
-      <Row justify='space-between' wrap>
-        <Link href={artist.external_urls.spotify} blank>{PageLinkLabel}</Link>
-        <Link href={artist.uri}>{AppLinkLabel}</Link>
-      </Row>
     </Panel>
     {#if topTracks}
       <Panel title="Top tracks" flex="1 0 100%">

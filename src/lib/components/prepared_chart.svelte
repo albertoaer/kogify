@@ -11,7 +11,7 @@
 
   const dispatch = createEventDispatcher<{click: { item: T, title: string }}>();
 
-  const maxLabelLength = 15;
+  const maxLabelLength = 30;
 
   let scales: ChartOptions['scales'] = overrideScales ? {
     y: {

@@ -41,14 +41,13 @@
     top: 0;
     z-index: 10;
     transition: background 300ms ease-out;
-    --color-hover: var(--color-background-A);
+    overflow: hidden;
   }
   
   header.background {
     background: var(--color-background-A);
     background: linear-gradient(0deg, transparent 0%, var(--color-background-A) 15%); ;
     transition: background 200ms ease-out;
-    --color-hover: var(--color-background-B);
   }
 
   h1, ul {
@@ -75,7 +74,7 @@
   }
 
   li:hover a {
-    background-color: var(--color-hover);
+    transform: scale(1.2);
     transition: 300ms all ease;
   }
   

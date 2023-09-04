@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Scaffold } from '$lib/components';
+  import { Scaffold } from '$lib/components/scaffold';
 	import type { Playlist } from '$lib/spotify';
 
   export let data;
@@ -11,7 +11,7 @@
 </script>
 
 {#if playlist}
-  <Scaffold image={playlist.images[0].url} title={playlist.name} href="/playlists/{id}">
+  <Scaffold image={playlist.images[0].url} title={playlist.name} href="/playlists/{id}" justify='center'>
     <slot />
   </Scaffold>
 {/if}
