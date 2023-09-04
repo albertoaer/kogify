@@ -1,5 +1,5 @@
 import { goto } from '$app/navigation';
-import { PUBLIC_REDIRECT_URL, PUBLIC_SPOTIFY_CLIENT_ID } from '$env/static/public';
+import { env } from '$env/dynamic/public';
 import type { SessionProvider, SessionState } from '$lib/spotify';
 import { AUTH_KEYS, type SpotifyAuthHelper, type AuthKey, type SpotifyAuth } from '$lib/spotify/auth';
 import { Observable, ReplaySubject, distinctUntilChanged, filter, map } from 'rxjs';
@@ -9,11 +9,11 @@ export class SvelteSpotifyAuthHelper implements SpotifyAuthHelper {
   static readonly observable$ = (this.subject$ as Observable<string>).pipe(filter(x => !!x), distinctUntilChanged());
 
   getClientId(): string {
-    return PUBLIC_SPOTIFY_CLIENT_ID;
+    return env.PUBLIC_SPOTIFY_CLIENT_ID;
   }
   
   getRedirectURL(): string {
-    return PUBLIC_REDIRECT_URL;
+    return env.PUBLIC_REDIRECT_URL;
   }
   
   getURL(): string {
