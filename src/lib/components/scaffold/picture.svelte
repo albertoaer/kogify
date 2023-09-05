@@ -11,7 +11,7 @@
 </script>
 
 {#if pictureSrc}
-	<Panel {flex} justify='center' align='center'>
+	<Panel {flex} justify='center' align='center' padding='0.5em'>
 		<Card src={pictureSrc} name={title} {href} rounded size="20em" shadow="0px 0px 25px 0px var(--color-effect-A)" />
 		<slot />
 	</Panel>

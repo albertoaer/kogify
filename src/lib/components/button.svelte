@@ -1,8 +1,11 @@
 <script lang="ts">
+	import type { UnitValue } from "./model";
+
   export let alt: boolean = false;
+  export let width: UnitValue | 'auto' = 'auto';
 </script>
 
-<button on:click on:mouseover on:mouseout on:focus on:blur class:alt>
+<button on:click on:mouseover on:mouseout on:focus on:blur class:alt style="--var-width: {width}">
   <slot />
 </button>
 
@@ -10,6 +13,7 @@
   button {
     margin: 0;
     border: 1px solid var(--color-effect-A);
+    width: var(--var-width);
     color: var(--color-text-A);
     background-color: transparent;
     font-size: inherit;

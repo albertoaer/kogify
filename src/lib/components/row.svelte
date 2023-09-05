@@ -1,14 +1,15 @@
 <script lang="ts">
-	import type { Unit, Justify } from "./model";
+	import type { UnitValue, Justify, Align } from "./model";
 
-  export let justify: Justify;
+  export let align: Align = 'center';
+  export let justify: Justify = 'center';
   export let wrap: boolean = false;
   export let grow: boolean = false;
-  export let fullWidth: boolean = false;
-  export let gap: `${number}${Unit}` = '0px';
+  export let width: UnitValue | 'auto' = 'auto';
+  export let gap: UnitValue = '0px';
 </script>
 
-<div class:wrap class:grow class:fullWidth style="--var-justify: {justify}; --var-gap: {gap}">
+<div class:wrap class:grow style="--var-align: {align}; --var-justify: {justify}; --var-gap: {gap}; --var-width: {width}">
   <slot />
 </div>
 
@@ -17,9 +18,10 @@
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    align-items: center;
+    align-items: var(--var-align);
     justify-content: var(--var-justify) ;
     gap: var(--var-gap);
+    width: var(--var-width);
   }
 
   div.wrap {
@@ -28,9 +30,5 @@
 
   div.grow {
     flex-grow: 1;
-  }
-
-  div.fullWidth {
-    width: 100%;
   }
 </style>

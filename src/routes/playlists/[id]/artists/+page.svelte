@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
 	import { Button, PreparedChart, Separator, Tags } from "$lib/components";
+	import type { Flex } from "$lib/components/model.js";
 	import Row from "$lib/components/row.svelte";
   import { Panel, Picture } from '$lib/components/scaffold';
-	import type { TrackArtist } from "$lib/spotify";
+	import type { Track, TrackArtist } from "$lib/spotify";
 	import type { Stats1D } from "$lib/statistics";
 
   export let data;
@@ -21,12 +22,16 @@
   
   let popularSongsOwners: [string, string][] = [];
   $: {
-    const filterArr = new Set<string>();
-    popularSongsOwners = $trackStats$.top(15).collect().map(x => x.artists[0]).filter(x => {
-      let contained = filterArr.has(x.id);
-      filterArr.add(x.id);
-      return !contained;
-    }).map(x => [x.name, `/playlists/${id}/filter?artists=${x.id}`]);
+    function calculateSongsOwners(stats: Stats1D<Track>): [string, string][] {
+      const filterArr = new Set<string>();
+      return stats.collect().map(x => x.artists[0]).filter(x => {
+        let contained = filterArr.has(x.id);
+        filterArr.add(x.id);
+        return !contained;
+      }).map(x => [x.name, `/playlists/${id}/filter?artists=${x.id}`]);
+    }
+    const trackStats = $trackStats$;
+    popularSongsOwners = calculateSongsOwners(trackStats.top(15));
   }
 
   const label = 'Artists appearance';
@@ -35,6 +40,15 @@
     const params = items ? `?artists=${items.map(x => x.id).join(',')}` : '';
     goto(`/playlists/${id}/filter${params}`);
   }
+
+  let chartPanelFlex: Flex = '1 0 35em';
+  function adjustMaxChartPanel(media: MediaQueryList | MediaQueryListEvent) {
+    chartPanelFlex = media.matches ? '1 1 auto' : '1 0 35em';
+  }
+
+  let mediaQuery = window.matchMedia('(max-width: 600px)');
+  adjustMaxChartPanel(mediaQuery);
+  mediaQuery.addEventListener('change', adjustMaxChartPanel);
 </script>
 
 {#if stats}
@@ -51,7 +65,7 @@
           The one with most songs is <b>{stats.at(0)?.label}</b> with <b>{stats.at(0)?.value}</b> songs:
         </p>
         <ul>
-          <li>{((stats.at(0)?.value || 0) / $tracks$.length).toFixed(3)}% of the songs</li>
+          <li>{((stats.at(0)?.value || 0) / $tracks$.length * 100).toFixed(2)}% of the songs</li>
           <li>{((stats.at(0)?.value || 0) / avgSongs).toFixed(2)}% over the average</li>
         </ul>
       {/if}
@@ -69,12 +83,12 @@
     <div>
       <h3>Mentions</h3>
       {#if popularSongsOwners}
-      <p>Those are the artists with the most popular songs:</p>
+      <p>These are the artists with the most popular songs:</p>
       <Tags tags={popularSongsOwners} />
       {/if}
     </div>
   </Panel>
-  <Panel title='Top {stats.count < 15 ? stats.count : 15}' flex='1 0 35em'>
+  <Panel title='Top {stats.count < 15 ? stats.count : 15}' flex={chartPanelFlex}>
     <PreparedChart
       type='bar'
       data={stats.top(15)}

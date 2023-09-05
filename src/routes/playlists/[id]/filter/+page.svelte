@@ -10,25 +10,27 @@
   
   export let data;
 
-  const { tracks$ } = data;
+  const { tracks$, getArtist$ } = data;
 
   let tracks: Track[] = [];
   $: tracks = $tracks$;
 
-  let filteredTracks: Track[] | undefined = undefined;
   let dataSet: ChartData | undefined = undefined;
   let dataSetPercent = 0;
 
+  let finalTracks: Track[] = [];
+  $: finalTracks = tracks;
+
   $: if (filter) {
-    filteredTracks = tracks.filter(x => x.artists.find(x => filter.includes(x.id)));
+    finalTracks = tracks.filter(x => x.artists.find(x => filter.includes(x.id)));
     const color = getColor('effect-A');
     const colorB = getColor('text-B');
     dataSet = {
-      labels: [`${filteredTracks.length} Tracks`, 'Remainder'],
+      labels: [`${finalTracks.length} Tracks`, 'Remainder'],
       datasets: [
         {
           label: 'Tracks',
-          data: [filteredTracks.length, tracks.length - filteredTracks.length],
+          data: [finalTracks.length, tracks.length - finalTracks.length],
           backgroundColor: [color, colorB],
           borderColor: colorB,
           pointBackgroundColor: color,
@@ -37,7 +39,13 @@
         }
       ]
     };
-    dataSetPercent = filteredTracks.length / tracks.length * 100;
+    dataSetPercent = finalTracks.length / tracks.length * 100;
+  }
+
+  let title = '';
+  $: {
+    const content = finalTracks.length > 1 && filter?.length === 1 ? $getArtist$(filter[0])?.name : finalTracks.length;
+    title = `Showing ${content} tracks`;
   }
 </script>
 
@@ -51,6 +59,6 @@
     {/if}
   </Panel>
 {/if}
-<Panel title='Showing {filteredTracks?.length || tracks.length} tracks' titleStart>
-  <SongList tracks={filteredTracks ?? tracks} />
+<Panel title={title} titleStart>
+  <SongList tracks={finalTracks} />
 </Panel>

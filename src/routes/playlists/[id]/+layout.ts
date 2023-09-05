@@ -25,6 +25,14 @@ export const load: LayoutLoad = async ({ params, parent }) => {
     shareReplay(1)
   );
 
+  const getArtist$ = stats$.pipe(
+    map(x => {
+      const data = new Map(x.collect().map(artist => [artist.id, artist]));
+      return data.get.bind(data);
+    }),
+    shareReplay(1)
+  );
+
   const trackStats$ = tracks$.pipe(
     map(x => new Stats1D(x.map(x => {
       return {
@@ -53,6 +61,7 @@ export const load: LayoutLoad = async ({ params, parent }) => {
     playlist$,
     tracks$,
     stats$,
+    getArtist$,
     trackStats$,
     playlistGenres$
   }

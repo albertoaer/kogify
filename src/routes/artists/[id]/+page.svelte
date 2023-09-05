@@ -19,7 +19,7 @@
 {#if artist}
   <Scaffold title={artist.name} image={artist.images[0].url} justify='center'>
     <Picture flex='0 1 auto'>
-      <Row justify='space-around' fullWidth>
+      <Row justify='space-around' width='100%'>
         <Link href={artist.external_urls.spotify} blank>{PageLinkLabel}</Link>
         <Link href={artist.uri}>{AppLinkLabel}</Link>
       </Row>
